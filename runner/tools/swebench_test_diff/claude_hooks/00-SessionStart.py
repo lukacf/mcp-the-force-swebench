@@ -1,0 +1,1 @@
+../../../../claude_hooks/00-SessionStart.py

@@ -1,0 +1,1 @@
+../../../../claude_hooks/logship.py

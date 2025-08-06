@@ -1,0 +1,3 @@
+# SWE-Bench integration requirements
+datasets>=2.0.0
+swebench>=2.0.0  # Required for evaluation harness and accurate scoring

@@ -1,0 +1,22 @@
+# Hidden directories
+.claude/
+.gcp/
+.mcp-the-force/
+
+# OS files
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.env
+
+# Test and temporary files
+*.log
+tmp/
+temp/

@@ -1,0 +1,1 @@
+../../../../claude_hooks/10-PreToolUse-mcp__the-force.py

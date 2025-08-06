@@ -1,0 +1,9 @@
+[project]
+name = "swebench_test_diff"
+version = "0.1.0"
+description = "fastmcp tool that sends a diff to a remote SWE-Bench tester"
+dependencies = ["fastmcp>=0.8", "requests>=2.32"]
+requires-python = ">=3.9"
+
+[tool.setuptools]
+packages = ["swebench_test_diff"]

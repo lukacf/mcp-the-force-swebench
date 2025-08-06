@@ -1,0 +1,3 @@
+[submodule "swebench/astropy"]
+	path = swebench/astropy
+	url = https://github.com/astropy/astropy.git

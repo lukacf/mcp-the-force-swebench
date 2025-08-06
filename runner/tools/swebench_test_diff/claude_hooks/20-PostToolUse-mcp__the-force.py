@@ -1,0 +1,1 @@
+../../../../claude_hooks/20-PostToolUse-mcp__the-force.py

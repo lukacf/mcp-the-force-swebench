@@ -1,0 +1,1 @@
+../../../../claude_hooks/30-Notification.py
