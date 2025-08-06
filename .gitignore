@@ -5,6 +5,7 @@
 
 # OS files
 .DS_Store
+Thumbs.db
 
 # Python
 __pycache__/
@@ -12,11 +13,88 @@ __pycache__/
 *$py.class
 *.so
 .Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
 env/
 venv/
-.env
+ENV/
+env.bak/
+venv.bak/
 
-# Test and temporary files
+# Testing
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+htmlcov/
+
+# Environments
+.env
+.venv
+
+# Editor files
+*.swp
+*.swo
+*~
+.*.swp
+.*.swo
+*.orig
+*.bak
+
+# IDEs
+.vscode/
+.idea/
+*.iml
+*.ipr
+*.iws
+.project
+.pydevproject
+
+# Temporary files
 *.log
+*.tmp
+*.temp
 tmp/
 temp/
+/tmp/
+
+# Local test files
+test_patch/
+debug_*.py
+
+# Misc
+artifacts/
+!runner/artifacts/README.md
+
+# Runner artifacts
+runner/artifacts/
+!runner/artifacts/.gitkeep
+
+# One-off scripts
+setup_tester_vm.sh
+setup_tester_vm_base64.txt
+
+# Documentation drafts
+CLEANUP_SUMMARY.md
+REPO_CLEANUP_ANALYSIS.md
