@@ -5,7 +5,7 @@ set -e
 
 INSTANCE_NAME="swe-bench-beast"
 ZONE="us-central1-a"
-REPO_URL="https://github.com/yourusername/mcp-the-force-benchmarks.git"  # TODO: Update this
+REPO_URL="https://github.com/lukacf/mcp-the-force-swebench.git"
 BRANCH="${BRANCH:-main}"
 
 echo "🚀 Deploying tester service from Git repository..."
@@ -25,9 +25,9 @@ echo "📦 Deploying from branch: $BRANCH"
 # Deploy on the instance
 gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command="
     # Clone or update repository
-    if [ -d ~/mcp-the-force-benchmarks ]; then
+    if [ -d ~/mcp-the-force-swebench ]; then
         echo '📥 Updating existing repository...'
-        cd ~/mcp-the-force-benchmarks
+        cd ~/mcp-the-force-swebench
         git fetch origin
         git checkout $BRANCH
         git pull origin $BRANCH
@@ -35,7 +35,7 @@ gcloud compute ssh "$INSTANCE_NAME" --zone="$ZONE" --command="
         echo '📥 Cloning repository...'
         cd ~
         git clone $REPO_URL
-        cd mcp-the-force-benchmarks
+        cd mcp-the-force-swebench
         git checkout $BRANCH
     fi
     
