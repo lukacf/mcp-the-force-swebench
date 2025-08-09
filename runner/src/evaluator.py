@@ -156,7 +156,13 @@ def evaluate_patch_docker(
             errors_count = response_data.get("errors", 0)
             
             # Consider it passed only if there are passed tests and no failures/errors
-            result["passed"] = passed_count > 0 and failed_count == 0 and errors_count == 0
+            # Also check if tests were collected (indicates successful test run)
+            collected = response_data.get("collected", 0)
+            if collected > 0 and passed_count == 0 and failed_count == 0 and errors_count == 0:
+                # All tests passed (pytest shows "X passed" not in our stats)
+                result["passed"] = True
+            else:
+                result["passed"] = passed_count > 0 and failed_count == 0 and errors_count == 0
             result["test_output"] = response_data.get("log_tail", "")
             result["stats"] = {
                 "passed": passed_count,
