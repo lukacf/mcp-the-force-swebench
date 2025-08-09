@@ -10,11 +10,11 @@ from typing import List, Dict, Any, Optional
 from datetime import datetime
 
 try:
-    from .worker import Worker
+    from .worker_v2 import Worker
     from .fetch_data import load_instances
 except ImportError:
     # For direct execution
-    from worker import Worker
+    from worker_v2 import Worker
     from fetch_data import load_instances
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -31,7 +31,7 @@ class Dispatcher:
         output_dir: Path = None,
         with_mcp: bool = True,
         max_iterations: int = 5,
-        timeout_per_iteration: int = 600,
+        timeout_per_iteration: int = 1800,
         use_docker: bool = False
     ):
         self.max_workers = max_workers
@@ -79,7 +79,8 @@ class Dispatcher:
                         cache_dir=self.cache_dir,
                         max_iterations=self.max_iterations,
                         timeout_per_iteration=self.timeout_per_iteration,
-                        with_mcp=self.with_mcp
+                        with_mcp=self.with_mcp,
+                        force_local=not self.use_docker
                     )
                     
                     result = worker.solve_task(instance)
@@ -106,7 +107,8 @@ class Dispatcher:
                             cache_dir=self.cache_dir,
                             max_iterations=self.max_iterations,
                             timeout_per_iteration=self.timeout_per_iteration,
-                            with_mcp=self.with_mcp
+                            with_mcp=self.with_mcp,
+                            force_local=not self.use_docker
                         )
                         
                         future = executor.submit(worker.solve_task, instance)
@@ -307,16 +309,30 @@ def main():
     parser.add_argument("--start", type=int, default=0, help="Start index")
     parser.add_argument("--no-mcp", action="store_true", help="Run without MCP tools")
     parser.add_argument("--iterations", type=int, default=5, help="Max iterations per task")
-    parser.add_argument("--timeout", type=int, default=600, help="Timeout per iteration (seconds)")
+    parser.add_argument("--timeout", type=int, default=1800, help="Timeout per iteration (seconds)")
     parser.add_argument("--run-name", help="Custom run name")
     parser.add_argument("--cache-dir", type=Path, help="Cache directory for git mirrors")
     parser.add_argument("--output-dir", type=Path, help="Output directory for results")
     parser.add_argument("--docker", action="store_true", help="Run workers in Docker containers")
+    parser.add_argument("--instance", help="Run specific instance ID")
+    parser.add_argument("--instances", nargs="+", help="Run specific instance IDs")
     
     args = parser.parse_args()
     
     # Load instances
     instances = load_instances()
+    
+    # Filter specific instances if requested
+    if args.instance:
+        instances = [i for i in instances if i['instance_id'] == args.instance]
+        if not instances:
+            logger.error(f"Instance {args.instance} not found")
+            return
+    elif args.instances:
+        instances = [i for i in instances if i['instance_id'] in args.instances]
+        if not instances:
+            logger.error(f"No matching instances found")
+            return
     
     # Apply sampling
     if args.sample:

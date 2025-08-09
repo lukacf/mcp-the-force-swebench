@@ -119,6 +119,12 @@ def run_tests(
     import time
     start_time = time.time()
     
+    # Check if this is a Django project
+    manage_py = Path(workdir) / 'manage.py'
+    if manage_py.exists():
+        logger.info("Detected Django project, using Django test runner")
+        return run_django_tests(workdir, test_paths, timeout)
+    
     # Build pytest command
     cmd = [pytest_cmd]
     
@@ -212,3 +218,65 @@ def filter_relevant_tests(workdir: str, issue_text: str) -> List[str]:
     # This is a simple heuristic and can be improved
     
     return test_files if test_files else None
+
+
+def run_django_tests(
+    workdir: str,
+    test_paths: Optional[List[str]] = None,
+    timeout: int = 300
+) -> TestReport:
+    """Run Django's manage.py test."""
+    import time
+    start_time = time.time()
+    
+    cmd = ['python', 'manage.py', 'test', '--verbosity=2']
+    if test_paths:
+        cmd.extend(test_paths)
+    
+    try:
+        result = subprocess.run(
+            cmd,
+            cwd=workdir,
+            capture_output=True,
+            text=True,
+            timeout=timeout
+        )
+        
+        # Parse Django test output
+        output = result.stdout + "\n" + result.stderr
+        
+        # Django shows: "Ran X tests in Ys"
+        ran_match = re.search(r'Ran (\d+) tests? in', output)
+        total_tests = int(ran_match.group(1)) if ran_match else 0
+        
+        # Django shows: "FAILED (failures=X, errors=Y)"
+        failed_match = re.search(r'FAILED.*failures=(\d+)', output)
+        errors_match = re.search(r'FAILED.*errors=(\d+)', output)
+        
+        failed = int(failed_match.group(1)) if failed_match else 0
+        errors = int(errors_match.group(1)) if errors_match else 0
+        passed = total_tests - failed - errors
+        
+        return TestReport(
+            success=(result.returncode == 0),
+            total_tests=total_tests,
+            passed=passed,
+            failed=failed,
+            errors=errors,
+            failures=[],  # Django doesn't give structured failure info
+            stdout=result.stdout,
+            stderr=result.stderr,
+            duration=time.time() - start_time
+        )
+    except Exception as e:
+        return TestReport(
+            success=False,
+            total_tests=0,
+            passed=0,
+            failed=0,
+            errors=1,
+            failures=[{'test_name': 'exception', 'error_message': str(e), 'file_path': ''}],
+            stdout='',
+            stderr=str(e),
+            duration=time.time() - start_time
+        )

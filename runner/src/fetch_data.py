@@ -65,9 +65,11 @@ def save_instances(
 
 
 def load_instances(
-    input_file: str = "swe_bench_instances.jsonl",
+    input_file: str = None,
 ) -> List[Dict[str, Any]]:
     """Load instances from JSONL file."""
+    if input_file is None:
+        input_file = "swe_bench_instances.jsonl"
     input_path = Path(__file__).parent / input_file
 
     if not input_path.exists():
