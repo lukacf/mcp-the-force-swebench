@@ -76,7 +76,7 @@ def run_test(r: Request):
         logger.info(f"Running tests for {r.instance_id} (django={is_django})")
         
         if is_django:
-            test_result = run_django_tests(cname, repo_dir, r.test_files, r.timeout)
+            test_result = run_django_tests_with_retry(cname, repo_dir, r.test_files, r.timeout)
         else:
             test_result = run_pytest_tests(cname, repo_dir, r.test_files, r.timeout)
         
@@ -124,6 +124,99 @@ def ensure_pytest_installed(container_name: str):
         logger.info("pytest installed successfully")
     return True
 
+def ensure_django_test_dependencies(container_name: str, repo_dir: str):
+    """Ensure Django test dependencies are installed."""
+    logger.info("Ensuring Django test dependencies are installed...")
+    
+    # First, check if there's a test requirements file
+    requirements_files = [
+        f"{repo_dir}/tests/requirements/py3.txt",
+        f"{repo_dir}/tests/requirements/tests.txt",
+        f"{repo_dir}/tests/requirements.txt",
+        f"{repo_dir}/test-requirements.txt",
+        f"{repo_dir}/requirements-test.txt"
+    ]
+    
+    installed_from_file = False
+    for req_file in requirements_files:
+        check_cmd = ["docker", "exec", container_name, "test", "-f", req_file]
+        if subprocess.run(check_cmd, capture_output=True).returncode == 0:
+            logger.info(f"Found requirements file: {req_file}")
+            install_cmd = ["docker", "exec", container_name,
+                          "conda", "run", "-n", "testbed", "pip", "install", "-r", req_file]
+            install_result = subprocess.run(install_cmd, capture_output=True, text=True)
+            if install_result.returncode == 0:
+                logger.info(f"Installed dependencies from {req_file}")
+                installed_from_file = True
+                break
+            else:
+                logger.warning(f"Failed to install from {req_file}: {install_result.stderr}")
+    
+    # If no requirements file, install common Django test dependencies
+    if not installed_from_file:
+        # Common dependencies needed for Django test suite
+        common_deps = ["pytz", "jinja2", "numpy", "Pillow", "PyYAML", "sqlparse"]
+        logger.info("No requirements file found, installing common Django test dependencies...")
+        
+        for dep in common_deps:
+            install_cmd = ["docker", "exec", container_name,
+                          "conda", "run", "-n", "testbed", "pip", "install", dep]
+            result = subprocess.run(install_cmd, capture_output=True, text=True)
+            if result.returncode == 0:
+                logger.debug(f"Installed {dep}")
+            else:
+                # Some deps might fail, that's OK
+                logger.debug(f"Could not install {dep} (may not be needed): {result.stderr}")
+    
+    # Special handling for specific Django versions that need additional setup
+    # Check Django version to apply version-specific fixes
+    version_cmd = ["docker", "exec", container_name,
+                   "conda", "run", "-n", "testbed", 
+                   "python", "-c", "import django; print(django.VERSION[:2])"]
+    version_result = subprocess.run(version_cmd, capture_output=True, text=True)
+    if version_result.returncode == 0:
+        try:
+            major, minor = eval(version_result.stdout.strip())
+            logger.info(f"Django version: {major}.{minor}")
+            
+            # Django 3.2+ might need additional deps
+            if major >= 3 and minor >= 2:
+                extra_deps = ["asgiref>=3.3.2", "backports.zoneinfo;python_version<'3.9'"]
+                for dep in extra_deps:
+                    install_cmd = ["docker", "exec", container_name,
+                                  "conda", "run", "-n", "testbed", "pip", "install", dep]
+                    subprocess.run(install_cmd, capture_output=True, text=True)
+        except:
+            pass  # If version detection fails, continue anyway
+
+def install_missing_module(container_name: str, module_name: str) -> bool:
+    """Try to install a missing Python module."""
+    # Common module name to package name mappings
+    module_to_package = {
+        'pytz': 'pytz',
+        'jinja2': 'jinja2',
+        'PIL': 'Pillow',
+        'yaml': 'PyYAML',
+        'numpy': 'numpy',
+        'sqlparse': 'sqlparse',
+        'asgiref': 'asgiref',
+        'backports': 'backports.zoneinfo'
+    }
+    
+    package_name = module_to_package.get(module_name, module_name)
+    logger.info(f"Attempting to install missing module: {module_name} (package: {package_name})")
+    
+    install_cmd = ["docker", "exec", container_name,
+                   "conda", "run", "-n", "testbed", "pip", "install", package_name]
+    result = subprocess.run(install_cmd, capture_output=True, text=True)
+    
+    if result.returncode == 0:
+        logger.info(f"Successfully installed {package_name}")
+        return True
+    else:
+        logger.error(f"Failed to install {package_name}: {result.stderr}")
+        return False
+
 def run_pytest_tests(container_name: str, repo_dir: str, test_files: Optional[List[str]], timeout: int):
     """Run pytest with specific test files or all tests."""
     
@@ -153,6 +246,27 @@ def run_pytest_tests(container_name: str, repo_dir: str, test_files: Optional[Li
     )
 
 
+def run_django_tests_with_retry(container_name: str, repo_dir: str, test_files: Optional[List[str]], timeout: int):
+    """Run Django tests with automatic retry on import errors."""
+    # First attempt
+    result = run_django_tests(container_name, repo_dir, test_files, timeout)
+    
+    # Check if failed due to import error
+    error_text = result.stderr + result.stdout
+    import_error_match = re.search(r"ModuleNotFoundError: No module named '(\w+)'", error_text)
+    
+    if import_error_match and result.returncode != 0:
+        missing_module = import_error_match.group(1)
+        logger.info(f"Test failed due to missing module: {missing_module}")
+        
+        # Try to install the missing module
+        if install_missing_module(container_name, missing_module):
+            logger.info("Retrying tests after installing missing module...")
+            # Retry the tests
+            result = run_django_tests(container_name, repo_dir, test_files, timeout)
+    
+    return result
+
 def run_django_tests(container_name: str, repo_dir: str, test_files: Optional[List[str]], timeout: int):
     """Run Django tests with specific test modules."""
     
@@ -162,15 +276,21 @@ def run_django_tests(container_name: str, repo_dir: str, test_files: Optional[Li
         capture_output=True
     )
     
+    # For Django core development, ensure test dependencies are installed
+    if check_manage.returncode != 0:
+        ensure_django_test_dependencies(container_name, repo_dir)
+    
     if check_manage.returncode == 0:
         # Use manage.py
         cmd = ["docker", "exec", "-w", repo_dir, container_name,
+               "conda", "run", "-n", "testbed",
                "python", "manage.py", "test", "--verbosity=2", "--no-input"]
     else:
         # Use tests/runtests.py (Django core development)
         cmd = ["docker", "exec", "-w", f"{repo_dir}/tests", 
                "-e", f"PYTHONPATH={repo_dir}",
                container_name,
+               "conda", "run", "-n", "testbed",
                "python", "runtests.py", "--verbosity=2", "--no-capture"]
     
     if test_files:
