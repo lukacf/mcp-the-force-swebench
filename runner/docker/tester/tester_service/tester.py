@@ -146,7 +146,9 @@ def run_django_tests(container_name: str, repo_dir: str, test_files: Optional[Li
                "python", "manage.py", "test", "--verbosity=2", "--no-input"]
     else:
         # Use tests/runtests.py (Django core development)
-        cmd = ["docker", "exec", "-w", f"{repo_dir}/tests", container_name,
+        cmd = ["docker", "exec", "-w", f"{repo_dir}/tests", 
+               "-e", f"PYTHONPATH={repo_dir}",
+               container_name,
                "python", "runtests.py", "--verbosity=2", "--no-capture"]
     
     if test_files:
