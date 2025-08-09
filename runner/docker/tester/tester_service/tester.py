@@ -105,8 +105,30 @@ def run_test(r: Request):
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
+def ensure_pytest_installed(container_name: str):
+    """Ensure pytest is installed in the testbed conda environment."""
+    # Check if pytest exists
+    check_cmd = ["docker", "exec", container_name, 
+                 "conda", "run", "-n", "testbed", "which", "pytest"]
+    check_result = subprocess.run(check_cmd, capture_output=True)
+    
+    if check_result.returncode != 0:
+        # pytest not found, install it
+        logger.info("pytest not found in testbed env, installing...")
+        install_cmd = ["docker", "exec", container_name,
+                       "conda", "run", "-n", "testbed", "pip", "install", "pytest"]
+        install_result = subprocess.run(install_cmd, capture_output=True, text=True)
+        if install_result.returncode != 0:
+            logger.error(f"Failed to install pytest: {install_result.stderr}")
+            return False
+        logger.info("pytest installed successfully")
+    return True
+
 def run_pytest_tests(container_name: str, repo_dir: str, test_files: Optional[List[str]], timeout: int):
     """Run pytest with specific test files or all tests."""
+    
+    # Ensure pytest is installed
+    ensure_pytest_installed(container_name)
     
     # Base command
     cmd = ["docker", "exec", "-w", repo_dir, container_name, 
