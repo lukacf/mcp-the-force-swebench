@@ -315,7 +315,7 @@ def convert_to_django_test_labels(test_files: List[str]) -> List[str]:
     
     Examples:
     - tests/validators/test_ipv4.py -> tests.validators.test_ipv4
-    - tests/validators/ -> tests.validators
+    - tests/validators/ -> validators (strips 'tests/' prefix)
     - django/core/validators/tests.py -> django.core.validators.tests
     """
     test_labels = []
@@ -325,8 +325,17 @@ def convert_to_django_test_labels(test_files: List[str]) -> List[str]:
         if file_path.endswith('.py'):
             file_path = file_path[:-3]
         
-        # Convert slashes to dots
-        test_label = file_path.replace('/', '.')
+        # Remove trailing slashes
+        file_path = file_path.rstrip('/')
+        
+        # Special handling for paths starting with 'tests/'
+        # Django's test runner expects app names, not 'tests.app_name'
+        if file_path.startswith('tests/') and '/' not in file_path[6:]:
+            # e.g., "tests/validators" -> "validators"
+            test_label = file_path[6:]  # Strip 'tests/' prefix
+        else:
+            # Convert slashes to dots for other paths
+            test_label = file_path.replace('/', '.')
         
         # Remove trailing dots
         test_label = test_label.rstrip('.')
