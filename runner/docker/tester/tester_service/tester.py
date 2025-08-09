@@ -362,6 +362,13 @@ def _parse_pytest(text: str) -> dict:
     collected = re.search(r"collected\s+(\d+)\s+item", text)
     if collected:
         stats["collected"] = int(collected.group(1))
+        
+        # If we collected tests but parsed stats show 0 for everything,
+        # and we see "X passed in" pattern, it means all tests passed
+        if stats["passed"] == 0 and stats["failed"] == 0 and stats["errors"] == 0:
+            all_passed = re.search(r"(\d+)\s+passed\s+in\s+[\d.]+s", text)
+            if all_passed:
+                stats["passed"] = int(all_passed.group(1))
     
     return stats
 
