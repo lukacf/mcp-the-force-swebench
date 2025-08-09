@@ -291,7 +291,7 @@ def run_django_tests(container_name: str, repo_dir: str, test_files: Optional[Li
                "-e", f"PYTHONPATH={repo_dir}",
                container_name,
                "conda", "run", "-n", "testbed",
-               "python", "runtests.py", "--verbosity=2", "--no-capture"]
+               "python", "runtests.py", "--verbosity=2"]
     
     if test_files:
         # Convert file paths to Django test labels
