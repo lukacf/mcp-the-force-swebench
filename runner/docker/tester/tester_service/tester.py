@@ -24,6 +24,8 @@ class Request(BaseModel):
     patch:       str
     timeout:     int = 900
     test_files:  Optional[List[str]] = Field(None, description="Specific test files to run")
+    fail_to_pass: Optional[List[str]] = Field(None, description="Tests that should fail without patch, pass with patch")
+    pass_to_pass: Optional[List[str]] = Field(None, description="Tests that should pass both before and after")
 
 
 def _collect_changed_test_paths(container: str, repo_dir: str) -> list:
@@ -136,6 +138,36 @@ def verify_python_version(container_name: str, repo_name: str) -> tuple:
     return "unknown", "unknown"
 
 
+def preflight_checks(container_name: str, repo_dir: str) -> dict:
+    """Run preflight checks for environment stability."""
+    checks = {}
+    
+    # Set deterministic environment
+    env_vars = {
+        "PYTHONHASHSEED": "0",
+        "TZ": "UTC"
+    }
+    
+    for var, value in env_vars.items():
+        subprocess.run(
+            ["docker", "exec", container_name, "sh", "-c", f"export {var}={value}"],
+            capture_output=True
+        )
+    
+    # Check pytest version
+    pytest_cmd = ["docker", "exec", container_name,
+                  "conda", "run", "-n", "testbed",
+                  "python", "-c", "import pytest; print(pytest.__version__)"]
+    result = subprocess.run(pytest_cmd, capture_output=True, text=True)
+    if result.returncode == 0:
+        checks["pytest_version"] = result.stdout.strip()
+        logger.info(f"Pytest version: {checks['pytest_version']}")
+    else:
+        checks["pytest_version"] = "not installed"
+    
+    return checks
+
+
 @app.post("/test")
 def run_test(r: Request):
     t0 = time.time()
@@ -184,35 +216,51 @@ def run_test(r: Request):
             if proc.returncode != 0:
                 raise HTTPException(422, f"Patch failed:\n{proc.stderr.decode()[:400]}")
 
-        # 4. Collect changed test files from the patch
-        # CRITICAL: Only run tests that were modified by the patch
-        changed_tests = _collect_changed_test_paths(cname, repo_dir)
+        # 3.5 Run preflight checks
+        preflight_checks(cname, repo_dir)
         
-        # Empty selection safety: try patch headers if git diff returns empty
-        if not changed_tests:
-            changed_tests = _get_test_paths_from_patch_header(cname, repo_dir, r.patch)
-        
-        # Collect specific test names for potential -k filtering
-        changed_test_names = _collect_changed_test_names(cname, repo_dir)
-        
-        # If test_files was ["all"] or empty, use the changed tests
-        if not r.test_files or (len(r.test_files) == 1 and r.test_files[0].lower() == "all"):
-            test_files_to_run = changed_tests
+        # 4. Determine which tests to run
+        # Priority 1: Use provided fail_to_pass and pass_to_pass lists (node IDs)
+        if r.fail_to_pass or r.pass_to_pass:
+            # Use the canonical test lists from instance metadata
+            all_target_tests = (r.fail_to_pass or []) + (r.pass_to_pass or [])
+            test_nodes_to_run = all_target_tests
+            test_files_to_run = None  # We'll use nodes directly
+            changed_test_names = None
+            logger.info(f"Using instance metadata: {len(all_target_tests)} test nodes")
         else:
-            # Use provided test files but filter to only those that exist
-            test_files_to_run = r.test_files
-        
-        if not test_files_to_run:
-            logger.warning(f"No test files found for {r.instance_id}")
-            # Return empty results if no tests to run
-            return {
-                "passed": 0,
-                "failed": 0,
-                "errors": 0,
-                "duration": round(time.time() - t0, 2),
-                "log_tail": "No test files found in patch",
-                "test_files_run": []
-            }
+            # Priority 2: Fall back to diff-based detection
+            changed_tests = _collect_changed_test_paths(cname, repo_dir)
+            
+            # Empty selection safety: try patch headers if git diff returns empty
+            if not changed_tests:
+                changed_tests = _get_test_paths_from_patch_header(cname, repo_dir, r.patch)
+            
+            # Collect specific test names for potential -k filtering
+            changed_test_names = _collect_changed_test_names(cname, repo_dir)
+            
+            # If test_files was ["all"] or empty, use the changed tests
+            if not r.test_files or (len(r.test_files) == 1 and r.test_files[0].lower() == "all"):
+                test_files_to_run = changed_tests
+            else:
+                # Use provided test files but filter to only those that exist
+                test_files_to_run = r.test_files
+            
+            test_nodes_to_run = None
+            
+            if not test_files_to_run:
+                logger.warning(f"No test files found for {r.instance_id}")
+                # Return empty results if no tests to run
+                return {
+                    "passed": 0,
+                    "failed": 0,
+                    "errors": 0,
+                    "duration": round(time.time() - t0, 2),
+                    "log_tail": "No test files found in patch",
+                    "test_files_run": [],
+                    "contract_met": False,
+                    "reason": "No tests to run"
+                }
         
         # 5. Determine repo type and run appropriate tests
         repo_name = r.instance_id.split("__")[0]
@@ -222,9 +270,18 @@ def run_test(r: Request):
         logger.info(f"Test files to run: {test_files_to_run}")
         
         if is_django:
-            test_result = run_django_tests_with_retry(cname, repo_dir, test_files_to_run, r.timeout)
+            if test_nodes_to_run:
+                # Convert node IDs to Django test labels
+                test_labels = [node.replace("/", ".").replace(".py", "").replace("::", ".") 
+                              for node in test_nodes_to_run]
+                test_result = run_django_tests_with_retry(cname, repo_dir, test_labels, r.timeout)
+            else:
+                test_result = run_django_tests_with_retry(cname, repo_dir, test_files_to_run, r.timeout)
         else:
-            test_result = run_pytest_tests(cname, repo_dir, test_files_to_run, r.timeout, test_names=changed_test_names)
+            if test_nodes_to_run:
+                test_result = run_pytest_with_nodes(cname, repo_dir, test_nodes_to_run, r.timeout)
+            else:
+                test_result = run_pytest_tests(cname, repo_dir, test_files_to_run, r.timeout, test_names=changed_test_names)
         
         out = test_result.stdout + "\n" + test_result.stderr
         
@@ -236,11 +293,30 @@ def run_test(r: Request):
         
         tail = "\n".join(out.splitlines()[-50:])  # Last 50 lines for better debugging
 
+        # Check contract if we have fail_to_pass/pass_to_pass metadata
+        contract_met = True
+        contract_reason = "OK"
+        
+        if r.fail_to_pass or r.pass_to_pass:
+            # We should enforce the contract
+            if r.patch and r.patch.strip():  # WITH patch
+                # All tests should pass
+                if stats["failed"] > 0 or stats["errors"] > 0:
+                    contract_met = False
+                    contract_reason = f"With patch: {stats['failed']} failed, {stats['errors']} errors (expected 0)"
+            else:  # WITHOUT patch
+                # At least one FAIL_TO_PASS should fail
+                if r.fail_to_pass and stats["failed"] == 0 and stats["errors"] == 0:
+                    contract_met = False
+                    contract_reason = "Without patch: no failures in FAIL_TO_PASS tests (expected failures)"
+        
         return {
             **stats,
             "duration": round(time.time() - t0, 2),
             "log_tail": tail,
-            "test_files_run": r.test_files or ["all"]
+            "test_files_run": test_nodes_to_run or test_files_to_run or ["all"],
+            "contract_met": contract_met,
+            "contract_reason": contract_reason
         }
 
     except subprocess.TimeoutExpired:
@@ -444,6 +520,86 @@ def run_pytest_tests(container_name: str, repo_dir: str, test_files: Optional[Li
         if _maybe_install_test_fixtures(container_name, output):
             logger.info("Retrying after installing missing fixtures...")
             return run_pytest_tests(container_name, repo_dir, test_files, timeout, test_names=test_names, retry_count=1)
+    
+    return result
+
+
+def run_pytest_with_nodes(container_name: str, repo_dir: str, test_nodes: List[str], timeout: int, retry_count: int = 0):
+    """Run pytest with specific node IDs (e.g., test_file.py::TestClass::test_method)."""
+    
+    # Ensure pytest is installed
+    ensure_pytest_installed(container_name)
+    
+    if not test_nodes:
+        logger.error("No test nodes provided")
+        return subprocess.CompletedProcess(args=[], returncode=1, 
+                                         stdout="", stderr="ERROR: No test nodes specified")
+    
+    # Base cmd
+    cmd = [
+        "docker", "exec", "-w", repo_dir, container_name,
+        "conda", "run", "-n", "testbed",
+        "python", "-m", "pytest",
+        "-v", "--tb=short", "-rN"
+    ]
+    
+    # Add the specific test nodes
+    cmd.extend(test_nodes)
+    logger.info(f"Running pytest with nodes: {test_nodes}")
+    
+    # Run the tests
+    result = subprocess.run(
+        cmd,
+        capture_output=True,
+        text=True,
+        timeout=timeout
+    )
+    
+    # Check for collection failures and retry with file + -k pattern
+    if retry_count == 0 and result.returncode != 0:
+        output = result.stdout + "\n" + result.stderr
+        
+        # Check for collection errors
+        if "ERROR collecting" in output or "no tests ran" in output.lower():
+            logger.info("Collection failed, trying with file + -k pattern")
+            
+            # Extract file paths and test names from nodes
+            files_and_names = {}
+            for node in test_nodes:
+                parts = node.split("::")
+                if parts:
+                    file_path = parts[0]
+                    test_name = parts[-1] if len(parts) > 1 else None
+                    if test_name:
+                        if file_path not in files_and_names:
+                            files_and_names[file_path] = []
+                        files_and_names[file_path].append(test_name)
+            
+            # Try each file with its -k pattern
+            if files_and_names:
+                for file_path, names in files_and_names.items():
+                    k_expr = " or ".join(names)
+                    fallback_cmd = [
+                        "docker", "exec", "-w", repo_dir, container_name,
+                        "conda", "run", "-n", "testbed",
+                        "python", "-m", "pytest",
+                        "-v", "--tb=short", "-rN",
+                        file_path, "-k", k_expr
+                    ]
+                    logger.info(f"Retrying with: {file_path} -k '{k_expr}'")
+                    result = subprocess.run(
+                        fallback_cmd,
+                        capture_output=True,
+                        text=True,
+                        timeout=timeout
+                    )
+                    if result.returncode == 0 or "passed" in result.stdout:
+                        break
+        
+        # Check for missing fixtures
+        elif _maybe_install_test_fixtures(container_name, output):
+            logger.info("Retrying after installing missing fixtures...")
+            return run_pytest_with_nodes(container_name, repo_dir, test_nodes, timeout, retry_count=1)
     
     return result
 

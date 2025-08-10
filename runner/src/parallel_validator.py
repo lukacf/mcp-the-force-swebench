@@ -63,14 +63,24 @@ class ParallelValidator:
         try:
             # Step 1: Test with test_patch only (should fail)
             start = time.time()
+            
+            # Prepare request with optional FAIL_TO_PASS/PASS_TO_PASS
+            request_data = {
+                "instance_id": instance_id,
+                "patch": instance['test_patch'],
+                "timeout": 300,
+                "test_files": self._extract_test_files(instance)
+            }
+            
+            # Add fail_to_pass and pass_to_pass if they exist in instance metadata
+            if 'FAIL_TO_PASS' in instance:
+                request_data['fail_to_pass'] = instance['FAIL_TO_PASS']
+            if 'PASS_TO_PASS' in instance:
+                request_data['pass_to_pass'] = instance['PASS_TO_PASS']
+            
             response1 = requests.post(
                 f"{worker_url}/test",
-                json={
-                    "instance_id": instance_id,
-                    "patch": instance['test_patch'],
-                    "timeout": 300,
-                    "test_files": self._extract_test_files(instance)
-                },
+                json=request_data,
                 timeout=420
             )
             
@@ -81,14 +91,24 @@ class ParallelValidator:
             
             # Step 2: Test with patch + test_patch (should pass)
             combined_patch = instance['patch'] + '\n' + instance['test_patch']
+            
+            # Prepare request with optional FAIL_TO_PASS/PASS_TO_PASS
+            request_data2 = {
+                "instance_id": instance_id,
+                "patch": combined_patch,
+                "timeout": 300,
+                "test_files": self._extract_test_files(instance)
+            }
+            
+            # Add fail_to_pass and pass_to_pass if they exist
+            if 'FAIL_TO_PASS' in instance:
+                request_data2['fail_to_pass'] = instance['FAIL_TO_PASS']
+            if 'PASS_TO_PASS' in instance:
+                request_data2['pass_to_pass'] = instance['PASS_TO_PASS']
+            
             response2 = requests.post(
                 f"{worker_url}/test",
-                json={
-                    "instance_id": instance_id,
-                    "patch": combined_patch,
-                    "timeout": 300,
-                    "test_files": self._extract_test_files(instance)
-                },
+                json=request_data2,
                 timeout=420
             )
             
@@ -117,6 +137,11 @@ class ParallelValidator:
             
             # For SWE-Bench: test should fail without fix, pass with fix
             is_valid = not test_only_passed and with_fix_passed
+            
+            # If we have contract enforcement from the tester, use that
+            if 'contract_met' in stats1 and 'contract_met' in stats2:
+                is_valid = stats1.get('contract_met', False) and stats2.get('contract_met', False)
+                logger.info(f"{instance_id}: Contract enforcement: test_only={stats1.get('contract_met')}, with_fix={stats2.get('contract_met')}")
             
             return {
                 'instance_id': instance_id,
