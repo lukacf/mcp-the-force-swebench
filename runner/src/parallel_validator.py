@@ -68,10 +68,10 @@ class ParallelValidator:
                 json={
                     "instance_id": instance_id,
                     "patch": instance['test_patch'],
-                    "timeout": 120,
+                    "timeout": 300,
                     "test_files": self._extract_test_files(instance)
                 },
-                timeout=150
+                timeout=420
             )
             
             if response1.status_code != 200:
@@ -86,10 +86,10 @@ class ParallelValidator:
                 json={
                     "instance_id": instance_id,
                     "patch": combined_patch,
-                    "timeout": 120,
+                    "timeout": 300,
                     "test_files": self._extract_test_files(instance)
                 },
-                timeout=150
+                timeout=420
             )
             
             if response2.status_code != 200:
@@ -238,7 +238,7 @@ class ParallelValidator:
             # Process results as they complete
             for future, instance, worker_url in futures:
                 try:
-                    result = future.result(timeout=180)
+                    result = future.result(timeout=420)
                     all_results.append(result)
                     
                     self.processed_count += 1
@@ -291,7 +291,7 @@ class ParallelValidator:
             
             for future in as_completed(futures):
                 try:
-                    result = future.result(timeout=180)
+                    result = future.result(timeout=420)
                     retry_results.append(result)
                     self._log_progress(result)
                 except Exception as e:

@@ -1,6 +1,7 @@
 """
 FastAPI micro-service v2: POST /test {instance_id, patch, timeout, test_files}
 Runs specific tests inside the relevant Epoch SWE-Bench image and returns JSON stats.
+FIXED VERSION: Uses python -m pytest to ensure correct interpreter
 """
 
 from fastapi import FastAPI, HTTPException
@@ -23,6 +24,28 @@ class Request(BaseModel):
     patch:       str
     timeout:     int = 900
     test_files:  Optional[List[str]] = Field(None, description="Specific test files to run")
+
+
+def verify_python_version(container_name: str, repo_name: str) -> tuple:
+    """Verify Python version in the testbed environment."""
+    cmd = ["docker", "exec", container_name,
+           "conda", "run", "-n", "testbed",
+           "python", "-c", 
+           "import sys, platform; print(sys.executable); print(platform.python_version())"]
+    
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode == 0:
+        lines = result.stdout.strip().split('\n')
+        executable = lines[0] if len(lines) > 0 else "unknown"
+        version = lines[1] if len(lines) > 1 else "unknown"
+        logger.info(f"Python version for {repo_name}: {version} at {executable}")
+        
+        # Warn if using Python 3.10+ for psf/requests
+        if repo_name == "psf" and version.startswith(('3.10', '3.11', '3.12')):
+            logger.warning(f"WARNING: psf/requests using Python {version}, expected <=3.9")
+        
+        return executable, version
+    return "unknown", "unknown"
 
 
 @app.post("/test")
@@ -58,6 +81,10 @@ def run_test(r: Request):
             shell=True, text=True, capture_output=True
         )
         repo_dir = find_repo.stdout.strip() or "/testbed"
+
+        # 2.5. Verify Python version
+        repo_name = r.instance_id.split("__")[0].split("/")[-1]
+        verify_python_version(cname, repo_name)
 
         # 3. apply patch (skip if empty)
         if r.patch and r.patch.strip():
@@ -107,21 +134,29 @@ def run_test(r: Request):
 
 def ensure_pytest_installed(container_name: str):
     """Ensure pytest is installed in the testbed conda environment."""
-    # Check if pytest exists
+    # Check if pytest exists IN THE CONDA ENV
     check_cmd = ["docker", "exec", container_name, 
-                 "conda", "run", "-n", "testbed", "which", "pytest"]
-    check_result = subprocess.run(check_cmd, capture_output=True)
+                 "conda", "run", "-n", "testbed", "python", "-c", "import pytest; print(pytest.__file__)"]
+    check_result = subprocess.run(check_cmd, capture_output=True, text=True)
     
     if check_result.returncode != 0:
         # pytest not found, install it
         logger.info("pytest not found in testbed env, installing...")
         install_cmd = ["docker", "exec", container_name,
-                       "conda", "run", "-n", "testbed", "pip", "install", "pytest"]
+                       "conda", "run", "-n", "testbed", "pip", "install", "pytest<7"]
         install_result = subprocess.run(install_cmd, capture_output=True, text=True)
         if install_result.returncode != 0:
             logger.error(f"Failed to install pytest: {install_result.stderr}")
             return False
         logger.info("pytest installed successfully")
+    else:
+        # Verify pytest is from the conda env
+        pytest_path = check_result.stdout.strip()
+        if "/envs/testbed/" not in pytest_path:
+            logger.warning(f"pytest found outside conda env: {pytest_path}, reinstalling...")
+            install_cmd = ["docker", "exec", container_name,
+                           "conda", "run", "-n", "testbed", "pip", "install", "--force-reinstall", "pytest<7"]
+            subprocess.run(install_cmd, capture_output=True, text=True)
     return True
 
 def ensure_django_test_dependencies(container_name: str, repo_dir: str):
@@ -223,19 +258,22 @@ def run_pytest_tests(container_name: str, repo_dir: str, test_files: Optional[Li
     # Ensure pytest is installed
     ensure_pytest_installed(container_name)
     
-    # Base command
+    # Set environment to avoid user site pollution
+    env_vars = "PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1"
+    
+    # CRITICAL FIX: Use python -m pytest instead of pytest directly
     cmd = ["docker", "exec", "-w", repo_dir, container_name, 
-           "conda", "run", "-n", "testbed", "pytest"]
+           "bash", "-c", f"{env_vars} conda run -n testbed python -m pytest"]
     
     if test_files:
         # Run only specific test files
-        # Don't use -x flag to run all specified tests
-        cmd.extend(["-v", "--tb=short", "--no-header", "-rN"])
-        cmd.extend(test_files)
+        # FIXED: Removed --no-header flag that causes failures
+        pytest_args = "-v --tb=short -rN " + " ".join(test_files)
+        cmd[-1] += f" {pytest_args}"
         logger.info(f"Running specific tests: {test_files}")
     else:
         # Fallback to running all tests (existing behavior)
-        cmd.extend(["-xvs"])
+        cmd[-1] += " -xvs"
         logger.info("Running all tests (no specific files provided)")
     
     return subprocess.run(
@@ -267,20 +305,43 @@ def run_django_tests_with_retry(container_name: str, repo_dir: str, test_files: 
     
     # Check for Django app registry errors
     if result.returncode != 0 and test_files:
-        if "doesn't declare an explicit app_label" in error_text or "isn't in an application in INSTALLED_APPS" in error_text:
-            logger.info("Test failed due to app registry error, trying with app-level discovery")
-            # Retry with just the app names
-            app_labels = []
-            for test_file in test_files:
-                if test_file.startswith('tests/') and '/' in test_file[6:]:
-                    # Extract just the app name
-                    app_name = test_file.split('/')[1]
-                    if app_name not in app_labels:
-                        app_labels.append(app_name)
+        app_error_match = re.search(
+            r"(?:ModuleNotFoundError:|ImportError:|django\.core\.exceptions\.ImproperlyConfigured:).*?(?:No module named|Could not import) '?([\w\.]+)'?",
+            error_text
+        )
+        
+        if app_error_match:
+            failed_module = app_error_match.group(1)
+            logger.warning(f"Django app import error: {failed_module}")
             
-            if app_labels and app_labels != test_files:
-                logger.info(f"Retrying with app labels: {app_labels}")
-                result = run_django_tests(container_name, repo_dir, app_labels, timeout)
+            # Try converting test labels if they look like file paths
+            if any('/' in tf or tf.endswith('.py') for tf in test_files):
+                # Convert file paths to Django test labels
+                new_test_files = []
+                for tf in test_files:
+                    # Remove .py extension
+                    if tf.endswith('.py'):
+                        tf = tf[:-3]
+                    # Convert path separators to dots
+                    tf = tf.replace('/', '.')
+                    # Remove 'tests.' prefix if present
+                    if tf.startswith('tests.'):
+                        tf = tf[6:]
+                    # For Django core tests, the format is just app_name.TestClass.test_method
+                    # Extract just the app name if it's a full path
+                    parts = tf.split('.')
+                    if len(parts) > 1 and parts[0] in ['admin', 'auth', 'contenttypes', 'sessions', 
+                                                         'messages', 'staticfiles', 'forms', 'db',
+                                                         'http', 'middleware', 'template', 'urls',
+                                                         'utils', 'views', 'cache', 'core']:
+                        # This looks like a Django core app test
+                        new_test_files.append(tf)
+                    else:
+                        new_test_files.append(tf)
+                
+                if new_test_files != test_files:
+                    logger.info(f"Retrying with converted test labels: {new_test_files}")
+                    result = run_django_tests(container_name, repo_dir, new_test_files, timeout)
     
     return result
 
@@ -304,140 +365,171 @@ def run_django_tests(container_name: str, repo_dir: str, test_files: Optional[Li
                "python", "manage.py", "test", "--verbosity=2", "--no-input"]
     else:
         # Use tests/runtests.py (Django core development)
-        cmd = ["docker", "exec", "-w", f"{repo_dir}/tests", 
-               "-e", f"PYTHONPATH={repo_dir}",
-               container_name,
+        cmd = ["docker", "exec", "-w", f"{repo_dir}/tests", container_name,
                "conda", "run", "-n", "testbed",
-               "python", "runtests.py", "--verbosity=2"]
+               "python", "runtests.py", "--verbosity=2", "--no-input"]
     
     if test_files:
-        # Convert file paths to Django test labels
-        test_labels = convert_to_django_test_labels(test_files)
-        cmd.extend(test_labels)
-        logger.info(f"Running Django tests: {test_labels}")
+        # Add specific test modules
+        cmd.extend(test_files)
+        logger.info(f"Running Django tests: {test_files}")
     else:
-        # Run all tests
         logger.info("Running all Django tests")
     
     return subprocess.run(
         cmd,
-        capture_output=True,
-        text=True,
+        capture_output=True, 
+        text=True, 
         timeout=timeout
     )
 
 
-def convert_to_django_test_labels(test_files: List[str]) -> List[str]:
-    """Convert file paths to Django test labels.
+def _parse_pytest(output: str) -> dict:
+    """Extract pytest test counts from output."""
     
-    Examples:
-    - tests/validators/test_ipv4.py -> validators.test_ipv4
-    - tests/validators/ -> validators
-    - tests/queries/test_qs_combinators.py -> queries.test_qs_combinators
-    - django/core/validators/tests.py -> django.core.validators.tests
-    """
-    test_labels = []
+    lines = output.strip().split('\n')
+    stats = {"collected": 0, "passed": 0, "failed": 0, "errors": 0, "skipped": 0}
     
-    for file_path in test_files:
-        # Remove .py extension if present
-        if file_path.endswith('.py'):
-            file_path = file_path[:-3]
+    # First, check if collection failed
+    for line in lines:
+        # Collection phase errors (file not found, import errors, etc)
+        if "ERROR collecting" in line or "collection failed" in line.lower():
+            stats["errors"] = 1
+            return stats
+            
+        # pytest execution errors (usually config issues)
+        if line.strip().startswith("ERROR:") or "INTERNALERROR>" in line:
+            stats["errors"] = 1
+            return stats
+    
+    # Look for pytest result summary
+    for i, line in enumerate(lines):
+        # Modern pytest summary line with timing info (most reliable)
+        match = re.search(r'=+\s*([\d.]+s.*?)=+$', line)
+        if match:
+            summary_text = match.group(1)
+            
+            # Parse passed/failed from summary
+            if re.search(r'(\d+)\s+passed', summary_text):
+                stats["passed"] = int(re.search(r'(\d+)\s+passed', summary_text).group(1))
+            if re.search(r'(\d+)\s+failed', summary_text):
+                stats["failed"] = int(re.search(r'(\d+)\s+failed', summary_text).group(1))
+            if re.search(r'(\d+)\s+error', summary_text):
+                stats["errors"] = int(re.search(r'(\d+)\s+error', summary_text).group(1))
+            if re.search(r'(\d+)\s+skipped', summary_text):
+                stats["skipped"] = int(re.search(r'(\d+)\s+skipped', summary_text).group(1))
+                
+            # If we found counts, we're done
+            if any(stats[k] > 0 for k in ["passed", "failed", "errors", "skipped"]):
+                stats["collected"] = sum(stats.values())
+                return stats
         
-        # Remove trailing slashes
-        file_path = file_path.rstrip('/')
-        
-        # Special handling for Django's own test suite (paths starting with 'tests/')
-        if file_path.startswith('tests/'):
-            # For Django core tests, we need to use app-based discovery
-            parts = file_path.split('/')
-            if len(parts) >= 2:
-                # Extract app name and remaining path
-                app_name = parts[1]  # e.g., 'queries' from 'tests/queries/test_qs_combinators'
-                if len(parts) > 2:
-                    # Include test module: queries.test_qs_combinators
-                    test_module = '.'.join(parts[2:])
-                    test_label = f"{app_name}.{test_module}"
-                else:
-                    # Just app name: queries
-                    test_label = app_name
+        # Alternative format without counts
+        if "= no tests ran in" in line:
+            # All tests were skipped/deselected
+            stats["collected"] = 0
+            return stats
+            
+        # Another format: "== 1 passed in 0.50s =="
+        if re.match(r'^=+\s*\d+\s+(passed|failed|error|skipped)', line):
+            parts = line.split()
+            for i, part in enumerate(parts):
+                if part in ['passed', 'failed', 'error', 'errors', 'skipped']:
+                    try:
+                        count = int(parts[i-1])
+                        if part == 'error' or part == 'errors':
+                            stats['errors'] = count
+                        else:
+                            stats[part.rstrip('s')] = count
+                    except (ValueError, IndexError):
+                        pass
+    
+    # Alternative: Look for collection count
+    for line in lines:
+        if "collected" in line and "item" in line:
+            match = re.search(r'collected\s+(\d+)', line)
+            if match:
+                stats["collected"] = int(match.group(1))
+                break
+    
+    # If nothing found but no error indicators, check if tests ran successfully
+    if all(stats[k] == 0 for k in stats) and output.strip():
+        # Look for test execution indicators
+        if re.search(r'\.+\s*\[\s*\d+%\]', output) or re.search(r'PASSED|FAILED|SKIPPED', output):
+            # Tests ran but we couldn't parse results - check for success indicators
+            if "failed" not in output.lower() and "error" not in output.lower():
+                # Seems like tests passed but format wasn't recognized
+                test_count = len(re.findall(r'(?:PASSED|test_\w+.*?(?:PASSED|OK))', output))
+                if test_count > 0:
+                    stats["passed"] = test_count
+                    stats["collected"] = test_count
             else:
-                # Shouldn't happen, but fallback
-                test_label = file_path.replace('/', '.')
-        else:
-            # For other paths (django/... etc), use standard conversion
-            test_label = file_path.replace('/', '.')
-        
-        # Remove trailing dots
-        test_label = test_label.rstrip('.')
-        
-        test_labels.append(test_label)
+                # There were failures/errors
+                stats["errors"] = 1
     
-    return test_labels
-
-
-def _parse_pytest(text: str) -> dict:
-    """Parse pytest output for test statistics."""
-    stats = {"passed": 0, "failed": 0, "errors": 0}
-    
-    # Look for summary line like "====== 5 failed, 10 passed in 2.34s ======"
-    # The summary line contains timing info, so we search for that pattern
-    # Search for all matches and find the one with timing info
-    for m in re.finditer(r"=+\s+(.*?)\s+=+", text):
-        summary = m.group(1)
-        # Check if this is the summary line (contains "in Xs")
-        if re.search(r"\s+in\s+[\d.]+s", summary):
-            # Parse the summary line
-            for key in stats:
-                # Handle both singular and plural forms (e.g., "1 error" vs "2 errors")
-                pattern = fr"(\d+)\s+{key}" if key != "errors" else r"(\d+)\s+errors?"
-                mm = re.search(pattern, summary)
-                if mm:
-                    stats[key] = int(mm.group(1))
-            break
-    
-    # Also check for "collected X items" to ensure tests ran
-    collected = re.search(r"collected\s+(\d+)\s+item", text)
-    if collected:
-        stats["collected"] = int(collected.group(1))
-        
-        # If we collected tests but parsed stats show 0 for everything,
-        # and we see "X passed in" pattern, it means all tests passed
-        if stats["passed"] == 0 and stats["failed"] == 0 and stats["errors"] == 0:
-            all_passed = re.search(r"(\d+)\s+passed\s+in\s+[\d.]+s", text)
-            if all_passed:
-                stats["passed"] = int(all_passed.group(1))
+    # Final validation
+    if stats["collected"] == 0 and any(stats[k] > 0 for k in ["passed", "failed", "errors", "skipped"]):
+        stats["collected"] = sum(stats.values())
     
     return stats
 
 
-def _parse_django_output(text: str) -> dict:
-    """Parse Django test output for statistics."""
-    stats = {"passed": 0, "failed": 0, "errors": 0}
+def _parse_django_output(output: str) -> dict:
+    """Extract Django test counts from output."""
     
-    # Django shows: "Ran X tests" and "FAILED (failures=Y, errors=Z)"
-    ran_match = re.search(r"Ran (\d+) tests?", text)
+    stats = {"collected": 0, "passed": 0, "failed": 0, "errors": 0, "skipped": 0}
+    
+    # Django test output patterns
+    # "Ran 88 tests in 5.623s" followed by OK or FAILED
+    ran_match = re.search(r'Ran (\d+) tests? in', output)
     if ran_match:
-        total = int(ran_match.group(1))
+        stats["collected"] = int(ran_match.group(1))
         
-        # Check for failures/errors
-        failed_match = re.search(r"FAILED.*failures=(\d+)", text)
-        errors_match = re.search(r"FAILED.*errors=(\d+)", text)
+        # Check if OK or FAILED
+        if re.search(r'\nOK\s*$', output, re.MULTILINE):
+            stats["passed"] = stats["collected"]
+        elif re.search(r'\nFAILED\s*\(', output):
+            # Parse failure details: "FAILED (failures=2, errors=1)"
+            fail_match = re.search(r'FAILED\s*\(([^)]+)\)', output)
+            if fail_match:
+                details = fail_match.group(1)
+                
+                # Parse individual counts
+                failures_match = re.search(r'failures?=(\d+)', details)
+                if failures_match:
+                    stats["failed"] = int(failures_match.group(1))
+                
+                errors_match = re.search(r'errors?=(\d+)', details)
+                if errors_match:
+                    stats["errors"] = int(errors_match.group(1))
+                
+                skipped_match = re.search(r'skipped?=(\d+)', details)
+                if skipped_match:
+                    stats["skipped"] = int(skipped_match.group(1))
+                
+                # Calculate passed as total minus failed/errors/skipped
+                stats["passed"] = max(0, stats["collected"] - stats["failed"] - stats["errors"] - stats["skipped"])
+            else:
+                # Generic failure without details
+                stats["failed"] = 1
+                stats["passed"] = max(0, stats["collected"] - 1)
+    else:
+        # Fallback: count individual test results
+        passed = len(re.findall(r'(\w+)\s+\(\S+\)\s+\.\.\.\s+ok', output))
+        failed = len(re.findall(r'(\w+)\s+\(\S+\)\s+\.\.\.\s+FAIL', output))
+        errors = len(re.findall(r'(\w+)\s+\(\S+\)\s+\.\.\.\s+ERROR', output))
+        skipped = len(re.findall(r'(\w+)\s+\(\S+\)\s+\.\.\.\s+skipped', output))
         
-        if failed_match:
-            stats["failed"] = int(failed_match.group(1))
-        if errors_match:
-            stats["errors"] = int(errors_match.group(1))
-        
-        # If we see "OK" in output, all tests passed
-        if "OK" in text and "FAILED" not in text:
-            stats["passed"] = total
-        else:
-            stats["passed"] = total - stats["failed"] - stats["errors"]
+        if passed + failed + errors + skipped > 0:
+            stats["passed"] = passed
+            stats["failed"] = failed
+            stats["errors"] = errors
+            stats["skipped"] = skipped
+            stats["collected"] = passed + failed + errors + skipped
     
     return stats
 
 
-# Health check endpoint
 @app.get("/health")
 def health():
-    return {"status": "healthy", "version": "2.0.0"}
+    return {"status": "ok", "service": "swe-tester-v2-fixed"}
