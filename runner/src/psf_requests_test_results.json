@@ -1,0 +1,95 @@
+{
+  "timestamp": "2025-08-10 09:57:08",
+  "workers_used": [
+    "http://34.123.9.23:8080",
+    "http://34.70.1.155:8080"
+  ],
+  "instances_tested": 3,
+  "valid": 0,
+  "invalid": 3,
+  "errors": 0,
+  "python_version_issues": 3,
+  "results": [
+    {
+      "instance_id": "psf__requests-1142",
+      "worker": "http://34.123.9.23:8080",
+      "valid": false,
+      "test_only": {
+        "passed": 0,
+        "failed": 1,
+        "errors": 0,
+        "collected": 27,
+        "duration": 2.5,
+        "log_tail": "test_requests.py:143: \n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \nrequests/api.py:55: in get\n    return request('get', url, **kwargs)\nrequests/api.py:44: in request\n    return session.request(method=method, url=url, **kwargs)\nrequests/sessions.py:280: in request\n    resp = self.send(prep, stream=stream, timeout=timeout, verify=verify, cert=cert, proxies=proxies)\nrequests/sessions.py:373: in send\n    r = adapter.send(request, **kwargs)\nrequests/adapters.py:161: in send\n    resp = conn.urlopen(\nrequests/packages/urllib3/connectionpool.py:416: in urlopen\n    conn = self._get_conn(timeout=pool_timeout)\nrequests/packages/urllib3/connectionpool.py:231: in _get_conn\n    return conn or self._new_conn()\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <requests.packages.urllib3.connectionpool.HTTPConnectionPool object at 0x747176023610>\n\n    def _new_conn(self):\n        \"\"\"\n        Return a fresh :class:`httplib.HTTPConnection`.\n        \"\"\"\n        self.num_connections += 1\n        log.info(\"Starting new HTTP connection (%d): %s\" %\n                 (self.num_connections, self.host))\n>       return HTTPConnection(host=self.host,\n                              port=self.port,\n                              strict=self.strict)\nE       TypeError: __init__() got an unexpected keyword argument 'strict'\n\nrequests/packages/urllib3/connectionpool.py:196: TypeError\n=============================== warnings summary ===============================\nrequests/packages/urllib3/_collections.py:7\n  /testbed/requests/packages/urllib3/_collections.py:7: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working\n    from collections import MutableMapping\n\ntest_requests.py::RequestsTestCase::test_BASICAUTH_TUPLE_HTTP_200_OK_GET\n  /testbed/requests/models.py:140: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working\n    if isinstance(hook, collections.Callable):\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ============================\nFAILED test_requests.py::RequestsTestCase::test_BASICAUTH_TUPLE_HTTP_200_OK_GET\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n======================== 1 failed, 2 warnings in 0.11s =========================\n\n\nERROR conda.cli.main_run:execute(124): `conda run pytest -xvs` failed. (See above for error)",
+        "test_files_run": [
+          "all"
+        ]
+      },
+      "with_fix": {
+        "passed": 0,
+        "failed": 1,
+        "errors": 0,
+        "collected": 27,
+        "duration": 2.13,
+        "log_tail": "requests/sessions.py:373: in send\n    r = adapter.send(request, **kwargs)\nrequests/adapters.py:161: in send\n    resp = conn.urlopen(\nrequests/packages/urllib3/connectionpool.py:416: in urlopen\n    conn = self._get_conn(timeout=pool_timeout)\nrequests/packages/urllib3/connectionpool.py:231: in _get_conn\n    return conn or self._new_conn()\n_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ \n\nself = <requests.packages.urllib3.connectionpool.HTTPConnectionPool object at 0x79f55fd2a850>\n\n    def _new_conn(self):\n        \"\"\"\n        Return a fresh :class:`httplib.HTTPConnection`.\n        \"\"\"\n        self.num_connections += 1\n        log.info(\"Starting new HTTP connection (%d): %s\" %\n                 (self.num_connections, self.host))\n>       return HTTPConnection(host=self.host,\n                              port=self.port,\n                              strict=self.strict)\nE       TypeError: __init__() got an unexpected keyword argument 'strict'\n\nrequests/packages/urllib3/connectionpool.py:196: TypeError\n=============================== warnings summary ===============================\nrequests/packages/urllib3/_collections.py:7\n  /testbed/requests/packages/urllib3/_collections.py:7: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working\n    from collections import MutableMapping\n\nrequests/models.py:608\n  /testbed/requests/models.py:608: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Returns the json-encoded content of a response, if any.\n\nrequests/models.py:561\n  /testbed/requests/models.py:561: SyntaxWarning: \"is\" with a literal. Did you mean \"==\"?\n    if self.status_code is 0:\n\ntest_requests.py::RequestsTestCase::test_BASICAUTH_TUPLE_HTTP_200_OK_GET\n  /testbed/requests/models.py:140: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working\n    if isinstance(hook, collections.Callable):\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ============================\nFAILED test_requests.py::RequestsTestCase::test_BASICAUTH_TUPLE_HTTP_200_OK_GET\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n======================== 1 failed, 4 warnings in 0.11s =========================\n\n\nERROR conda.cli.main_run:execute(124): `conda run pytest -xvs` failed. (See above for error)",
+        "test_files_run": [
+          "all"
+        ]
+      }
+    },
+    {
+      "instance_id": "psf__requests-1724",
+      "worker": "http://34.70.1.155:8080",
+      "valid": false,
+      "test_only": {
+        "passed": 19,
+        "failed": 1,
+        "errors": 0,
+        "collected": 88,
+        "duration": 16.04,
+        "log_tail": "test_requests.py::RequestsTestCase::test_DIGEST_HTTP_200_OK_GET PASSED\ntest_requests.py::RequestsTestCase::test_DIGEST_STREAM PASSED\ntest_requests.py::RequestsTestCase::test_HTTP_200_OK_GET_ALTERNATIVE PASSED\ntest_requests.py::RequestsTestCase::test_HTTP_200_OK_GET_WITH_MIXED_PARAMS PASSED\ntest_requests.py::RequestsTestCase::test_HTTP_200_OK_GET_WITH_PARAMS PASSED\ntest_requests.py::RequestsTestCase::test_HTTP_200_OK_HEAD PASSED\ntest_requests.py::RequestsTestCase::test_HTTP_200_OK_PUT PASSED\ntest_requests.py::RequestsTestCase::test_HTTP_302_ALLOW_REDIRECT_GET PASSED\ntest_requests.py::RequestsTestCase::test_POSTBIN_GET_POST_FILES PASSED\ntest_requests.py::RequestsTestCase::test_POSTBIN_GET_POST_FILES_WITH_DATA PASSED\ntest_requests.py::RequestsTestCase::test_autoset_header_values_are_native PASSED\ntest_requests.py::RequestsTestCase::test_basic_building PASSED\ntest_requests.py::RequestsTestCase::test_basicauth_with_netrc PASSED\ntest_requests.py::RequestsTestCase::test_can_send_nonstring_objects_with_files PASSED\ntest_requests.py::RequestsTestCase::test_cannot_send_unprepared_requests PASSED\ntest_requests.py::RequestsTestCase::test_conflicting_post_params FAILED\n\n=================================== FAILURES ===================================\n________________ RequestsTestCase.test_conflicting_post_params _________________\n\nself = <test_requests.RequestsTestCase testMethod=test_conflicting_post_params>\n\n    def test_conflicting_post_params(self):\n        url = httpbin('post')\n        with open('requirements.txt') as f:\n>           pytest.raises(ValueError, \"requests.post(url, data='[{\\\"some\\\": \\\"data\\\"}]', files={'some': f})\")\nE           TypeError: 'requests.post(url, data=\\'[{\"some\": \"data\"}]\\', files={\\'some\\': f})' object (type: <class 'str'>) must be callable\n\ntest_requests.py:362: TypeError\n=============================== warnings summary ===============================\nrequests/packages/urllib3/_collections.py:7\n  /testbed/requests/packages/urllib3/_collections.py:7: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working\n    from collections import MutableMapping\n\nrequests/sessions.py:12\n  /testbed/requests/sessions.py:12: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working\n    from collections import Mapping\n\ntest_requests.py::RequestsTestCase::test_BASICAUTH_TUPLE_HTTP_200_OK_GET\n  /testbed/requests/models.py:156: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working\n    if isinstance(hook, collections.Callable):\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ============================\nFAILED test_requests.py::RequestsTestCase::test_conflicting_post_params - Typ...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n================== 1 failed, 19 passed, 3 warnings in 13.76s ===================\n\n\nERROR conda.cli.main_run:execute(124): `conda run pytest -xvs` failed. (See above for error)",
+        "test_files_run": [
+          "all"
+        ]
+      },
+      "with_fix": {
+        "passed": 19,
+        "failed": 1,
+        "errors": 0,
+        "collected": 88,
+        "duration": 11.72,
+        "log_tail": "test_requests.py:362: TypeError\n=============================== warnings summary ===============================\nrequests/packages/urllib3/_collections.py:7\n  /testbed/requests/packages/urllib3/_collections.py:7: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working\n    from collections import MutableMapping\n\nrequests/sessions.py:369\n  /testbed/requests/sessions.py:369: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a GET request. Returns :class:`Response` object.\n\nrequests/sessions.py:379\n  /testbed/requests/sessions.py:379: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a OPTIONS request. Returns :class:`Response` object.\n\nrequests/sessions.py:389\n  /testbed/requests/sessions.py:389: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a HEAD request. Returns :class:`Response` object.\n\nrequests/sessions.py:399\n  /testbed/requests/sessions.py:399: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a POST request. Returns :class:`Response` object.\n\nrequests/sessions.py:409\n  /testbed/requests/sessions.py:409: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a PUT request. Returns :class:`Response` object.\n\nrequests/sessions.py:419\n  /testbed/requests/sessions.py:419: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a PATCH request. Returns :class:`Response` object.\n\nrequests/sessions.py:429\n  /testbed/requests/sessions.py:429: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a DELETE request. Returns :class:`Response` object.\n\nrequests/sessions.py:12\n  /testbed/requests/sessions.py:12: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working\n    from collections import Mapping\n\ntest_requests.py::RequestsTestCase::test_BASICAUTH_TUPLE_HTTP_200_OK_GET\n  /testbed/requests/models.py:156: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working\n    if isinstance(hook, collections.Callable):\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ============================\nFAILED test_requests.py::RequestsTestCase::test_conflicting_post_params - Typ...\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n================== 1 failed, 19 passed, 10 warnings in 9.65s ===================\n\n\nERROR conda.cli.main_run:execute(124): `conda run pytest -xvs` failed. (See above for error)",
+        "test_files_run": [
+          "all"
+        ]
+      }
+    },
+    {
+      "instance_id": "psf__requests-2931",
+      "worker": "http://34.123.9.23:8080",
+      "valid": false,
+      "test_only": {
+        "passed": 3,
+        "failed": 0,
+        "errors": 1,
+        "collected": 168,
+        "duration": 2.37,
+        "log_tail": "    \"\"\"Sends a PUT request.\n\nrequests/api.py:124\n  /testbed/requests/api.py:124: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a PATCH request.\n\nrequests/api.py:137\n  /testbed/requests/api.py:137: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a DELETE request.\n\nrequests/sessions.py:473\n  /testbed/requests/sessions.py:473: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a GET request. Returns :class:`Response` object.\n\nrequests/sessions.py:483\n  /testbed/requests/sessions.py:483: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a OPTIONS request. Returns :class:`Response` object.\n\nrequests/sessions.py:493\n  /testbed/requests/sessions.py:493: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a HEAD request. Returns :class:`Response` object.\n\nrequests/sessions.py:503\n  /testbed/requests/sessions.py:503: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a POST request. Returns :class:`Response` object.\n\nrequests/sessions.py:514\n  /testbed/requests/sessions.py:514: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a PUT request. Returns :class:`Response` object.\n\nrequests/sessions.py:524\n  /testbed/requests/sessions.py:524: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a PATCH request. Returns :class:`Response` object.\n\nrequests/sessions.py:534\n  /testbed/requests/sessions.py:534: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a DELETE request. Returns :class:`Response` object.\n\ntest_requests.py::TestRequests::test_invalid_url\n  /testbed/requests/models.py:168: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working\n    if isinstance(hook, collections.Callable):\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ============================\nERROR test_requests.py::TestRequests::test_no_content_length\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n=================== 3 passed, 22 warnings, 1 error in 0.28s ====================\n\n\nERROR conda.cli.main_run:execute(124): `conda run pytest -xvs` failed. (See above for error)",
+        "test_files_run": [
+          "all"
+        ]
+      },
+      "with_fix": {
+        "passed": 3,
+        "failed": 0,
+        "errors": 1,
+        "collected": 168,
+        "duration": 2.33,
+        "log_tail": "    \"\"\"Sends a PUT request.\n\nrequests/api.py:124\n  /testbed/requests/api.py:124: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a PATCH request.\n\nrequests/api.py:137\n  /testbed/requests/api.py:137: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a DELETE request.\n\nrequests/sessions.py:473\n  /testbed/requests/sessions.py:473: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a GET request. Returns :class:`Response` object.\n\nrequests/sessions.py:483\n  /testbed/requests/sessions.py:483: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a OPTIONS request. Returns :class:`Response` object.\n\nrequests/sessions.py:493\n  /testbed/requests/sessions.py:493: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a HEAD request. Returns :class:`Response` object.\n\nrequests/sessions.py:503\n  /testbed/requests/sessions.py:503: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a POST request. Returns :class:`Response` object.\n\nrequests/sessions.py:514\n  /testbed/requests/sessions.py:514: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a PUT request. Returns :class:`Response` object.\n\nrequests/sessions.py:524\n  /testbed/requests/sessions.py:524: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a PATCH request. Returns :class:`Response` object.\n\nrequests/sessions.py:534\n  /testbed/requests/sessions.py:534: DeprecationWarning: invalid escape sequence \\*\n    \"\"\"Sends a DELETE request. Returns :class:`Response` object.\n\ntest_requests.py::TestRequests::test_invalid_url\n  /testbed/requests/models.py:168: DeprecationWarning: Using or importing the ABCs from 'collections' instead of from 'collections.abc' is deprecated since Python 3.3, and in 3.10 it will stop working\n    if isinstance(hook, collections.Callable):\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ============================\nERROR test_requests.py::TestRequests::test_no_content_length\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n=================== 3 passed, 22 warnings, 1 error in 0.28s ====================\n\n\nERROR conda.cli.main_run:execute(124): `conda run pytest -xvs` failed. (See above for error)",
+        "test_files_run": [
+          "all"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "workers": [
+    {"name": "swe-bench-worker-1", "ip": "34.44.234.143", "port": 8080},
+    {"name": "swe-bench-worker-2", "ip": "35.239.238.137", "port": 8080},
+    {"name": "swe-bench-worker-3", "ip": "34.41.233.120", "port": 8080},
+    {"name": "swe-bench-worker-4", "ip": "34.44.241.183", "port": 8080},
+    {"name": "swe-bench-worker-6", "ip": "34.59.30.169", "port": 8080},
+    {"name": "swe-bench-worker-7", "ip": "34.123.9.23", "port": 8080},
+    {"name": "swe-bench-worker-8", "ip": "34.70.1.155", "port": 8080}
+  ]
+}
