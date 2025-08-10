@@ -18,6 +18,42 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="swe-tester-v2", version="2.0.0")
 
+# Local semaphore to prevent stampede (max 2 concurrent tests)
+import asyncio
+local_semaphore = asyncio.Semaphore(2)
+
+
+@app.get("/health")
+async def health():
+    """Basic health check - always returns 200 if service is running."""
+    return {"status": "healthy", "version": "2.0.0"}
+
+
+@app.get("/live")
+async def live():
+    """Liveness probe - returns 200 unconditionally."""
+    return {"status": "alive"}
+
+
+@app.get("/ready")
+async def ready():
+    """Readiness probe - checks if Docker is responsive."""
+    try:
+        # Check if docker is responsive with a short timeout
+        result = subprocess.run(
+            ["docker", "info"],
+            capture_output=True,
+            timeout=2
+        )
+        if result.returncode == 0:
+            return {"status": "ready", "docker": "responsive"}
+        else:
+            raise HTTPException(status_code=503, detail="Docker not responsive")
+    except subprocess.TimeoutExpired:
+        raise HTTPException(status_code=503, detail="Docker info timeout")
+    except Exception as e:
+        raise HTTPException(status_code=503, detail=f"Docker check failed: {str(e)}")
+
 
 class Request(BaseModel):
     instance_id: str = Field(..., description="SWE-Bench instance ID, e.g. django__django-16595")
@@ -169,7 +205,25 @@ def preflight_checks(container_name: str, repo_dir: str) -> dict:
 
 
 @app.post("/test")
-def run_test(r: Request):
+async def run_test(r: Request):
+    # Try to acquire local semaphore (non-blocking)
+    if not local_semaphore.locked():
+        try:
+            await local_semaphore.acquire()
+        except:
+            # If we can't acquire, return 429 (Too Many Requests)
+            raise HTTPException(status_code=429, detail="Tester busy, please retry later")
+    else:
+        # Semaphore is at capacity
+        raise HTTPException(status_code=429, detail="Tester at capacity, please retry")
+    
+    try:
+        return await _run_test_impl(r)
+    finally:
+        local_semaphore.release()
+
+
+async def _run_test_impl(r: Request):
     t0 = time.time()
 
     # Epoch AI images use instance_id format
@@ -323,7 +377,11 @@ def run_test(r: Request):
         raise HTTPException(504, "Test execution timed-out")
 
     finally:
+        # Clean up container
         subprocess.run(["docker", "rm", "-f", cname],
+                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        # Clean up image to prevent disk fill (GPT-5 recommendation)
+        subprocess.run(["docker", "image", "rm", image],
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 

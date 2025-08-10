@@ -1,0 +1,1825 @@
+{
+  "completed": 100,
+  "total": 499,
+  "passed": 14,
+  "failed": 86,
+  "pass_rate": 14.000000000000002,
+  "results": [
+    {
+      "instance_id": "astropy__astropy-12907",
+      "passed": true,
+      "duration": 26.729392051696777,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 11,
+        "passed": 11,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 26.33,
+        "log_tail": "\nExecutable: /opt/miniconda3/envs/testbed/bin/python\n\nFull Python Version: \n3.9.20 (main, Oct  3 2024, 07:27:41) \n[GCC 11.2.0]\n\nencodings: sys: utf-8, locale: UTF-8, filesystem: utf-8\nbyteorder: little\nfloat info: dig: 15, mant_dig: 15\n\nPackage versions: \nNumpy: 1.25.2\nScipy: not available\nMatplotlib: not available\nh5py: not available\nPandas: not available\nPyERFA: 2.0.0.3\nCython: not available\nScikit-image: not available\nasdf: not available\npyarrow: not available\n\nUsing Astropy options: remote_data: none.\n\nARCH_ON_CI: undefined\nIS_CRON: undefined\n\nrootdir: /testbed\nconfigfile: setup.cfg\nplugins: mock-3.11.1, astropy-0.10.0, remotedata-0.4.0, openfiles-0.5.0, xdist-3.3.1, filter-subpackage-0.1.2, hypothesis-6.82.6, doctestplus-1.0.0, arraydiff-0.5.0, cov-4.1.0, astropy-header-0.2.2\ncollecting ... collected 11 items\n\nastropy/modeling/tests/test_separable.py::test_coord_matrix PASSED       [  9%]\nastropy/modeling/tests/test_separable.py::test_cdot PASSED               [ 18%]\nastropy/modeling/tests/test_separable.py::test_cstack PASSED             [ 27%]\nastropy/modeling/tests/test_separable.py::test_arith_oper PASSED         [ 36%]\nastropy/modeling/tests/test_separable.py::test_separable[compound_model0-result0] PASSED [ 45%]\nastropy/modeling/tests/test_separable.py::test_separable[compound_model1-result1] PASSED [ 54%]\nastropy/modeling/tests/test_separable.py::test_separable[compound_model2-result2] PASSED [ 63%]\nastropy/modeling/tests/test_separable.py::test_separable[compound_model3-result3] PASSED [ 72%]\nastropy/modeling/tests/test_separable.py::test_separable[compound_model4-result4] PASSED [ 81%]\nastropy/modeling/tests/test_separable.py::test_separable[compound_model5-result5] PASSED [ 90%]\nastropy/modeling/tests/test_separable.py::test_custom_model_separable PASSED [100%]\n\n============================== 11 passed in 0.34s ==============================\n\n\n<frozen importlib._bootstrap>:228: RuntimeWarning: numpy.ndarray size changed, may indicate binary incompatibility. Expected 80 from C header, got 96 from PyObject\n",
+        "test_files_run": [
+          "astropy/modeling/tests/test_separable.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "astropy__astropy-13033",
+      "passed": true,
+      "duration": 27.595165967941284,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 25,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 3,
+        "duration": 27.18,
+        "log_tail": "astropy/timeseries/tests/test_sampled.py::test_initialize_only_data PASSED [ 20%]\nastropy/timeseries/tests/test_sampled.py::test_initialization_with_table PASSED [ 24%]\nastropy/timeseries/tests/test_sampled.py::test_initialization_with_time_delta FAILED [ 28%]\nastropy/timeseries/tests/test_sampled.py::test_initialization_missing_time_delta PASSED [ 32%]\nastropy/timeseries/tests/test_sampled.py::test_initialization_invalid_time_and_time_start PASSED [ 36%]\nastropy/timeseries/tests/test_sampled.py::test_initialization_invalid_time_delta PASSED [ 40%]\nastropy/timeseries/tests/test_sampled.py::test_initialization_with_time_in_data PASSED [ 44%]\nastropy/timeseries/tests/test_sampled.py::test_initialization_n_samples PASSED [ 48%]\nastropy/timeseries/tests/test_sampled.py::test_initialization_length_mismatch PASSED [ 52%]\nastropy/timeseries/tests/test_sampled.py::test_initialization_invalid_both_time_and_time_delta PASSED [ 56%]\nastropy/timeseries/tests/test_sampled.py::test_fold PASSED               [ 60%]\nastropy/timeseries/tests/test_sampled.py::test_fold_invalid_options PASSED [ 64%]\nastropy/timeseries/tests/test_sampled.py::test_pandas SKIPPED (could...) [ 68%]\nastropy/timeseries/tests/test_sampled.py::test_read_time_missing PASSED  [ 72%]\nastropy/timeseries/tests/test_sampled.py::test_read_time_wrong PASSED    [ 76%]\nastropy/timeseries/tests/test_sampled.py::test_read PASSED               [ 80%]\nastropy/timeseries/tests/test_sampled.py::test_kepler_astropy SKIPPED    [ 84%]\nastropy/timeseries/tests/test_sampled.py::test_tess_astropy SKIPPED      [ 88%]\nastropy/timeseries/tests/test_sampled.py::test_required_columns PASSED   [ 92%]\nastropy/timeseries/tests/test_sampled.py::test_periodogram[BoxLeastSquares] PASSED [ 96%]\nastropy/timeseries/tests/test_sampled.py::test_periodogram[LombScargle] PASSED [100%]\n\n=================================== FAILURES ===================================\n_____________________ test_initialization_with_time_delta ______________________\nastropy/time/core.py:2824: in update_leap_seconds\n    table = iers.LeapSeconds.auto_open(files)\nastropy/utils/iers/iers.py:1032: in auto_open\n    warn('leap-second file is expired.', IERSStaleWarning)\nE   astropy.utils.iers.iers.IERSStaleWarning: leap-second file is expired.\n\nDuring handling of the above exception, another exception occurred:\nastropy/timeseries/tests/test_sampled.py:67: in test_initialization_with_time_delta\n    ts = TimeSeries(time_start=datetime(2018, 7, 1, 10, 10, 10),\nastropy/timeseries/sampled.py:122: in __init__\n    time = time_start + time_delta\nastropy/time/core.py:2208: in __add__\n    out._set_scale('tai')\nastropy/time/core.py:554: in _set_scale\n    _check_leapsec()\nastropy/time/core.py:2795: in _check_leapsec\n    update_leap_seconds()\nastropy/time/core.py:2828: in update_leap_seconds\n    warn(\"leap-second auto-update failed due to the following \"\nE   astropy.utils.exceptions.AstropyWarning: leap-second auto-update failed due to the following exception: IERSStaleWarning('leap-second file is expired.')\n=================== 1 failed, 21 passed, 3 skipped in 0.29s ====================\n\n\n<frozen importlib._bootstrap>:228: RuntimeWarning: numpy.ndarray size changed, may indicate binary incompatibility. Expected 80 from C header, got 96 from PyObject\n\nERROR conda.cli.main_run:execute(124): `conda run python -m pytest -v --tb=short -rN astropy/timeseries/tests/test_sampled.py` failed. (See above for error)",
+        "test_files_run": [
+          "astropy/timeseries/tests/test_sampled.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "astropy__astropy-13236",
+      "passed": true,
+      "duration": 29.451030015945435,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 672,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 29.03,
+        "log_tail": "astropy/table/tests/test_mixin.py::test_rename_mixin_columns[timedelta] PASSED [ 99%]\nastropy/table/tests/test_mixin.py::test_represent_mixins_as_columns_unit_fix PASSED [ 99%]\nastropy/table/tests/test_mixin.py::test_primary_data_column_gets_description PASSED [ 99%]\nastropy/table/tests/test_mixin.py::test_skycoord_with_velocity PASSED    [ 99%]\nastropy/table/tests/test_mixin.py::test_ensure_input_info_is_unchanged[Table] PASSED [ 99%]\nastropy/table/tests/test_mixin.py::test_ensure_input_info_is_unchanged[QTable] PASSED [ 99%]\nastropy/table/tests/test_mixin.py::test_bad_info_class PASSED            [100%]\n\n=================================== FAILURES ===================================\n___________________________ test_values_equal_part1 ____________________________\nastropy/table/tests/test_table.py:1497: in test_values_equal_part1\n    t1.values_equal(2)\nE   Failed: DID NOT RAISE <class 'ValueError'>\n_________________________ test_skycoord_representation _________________________\nastropy/table/tests/test_mixin.py:688: in test_skycoord_representation\n    assert t.pformat() == ['  col0  ',\nastropy/table/table.py:1799: in pformat\n    lines, outs = self.formatter._pformat_table(\nastropy/table/pprint.py:563: in _pformat_table\n    show_unit = any(col.info.unit for col in table.columns.values())\nastropy/table/pprint.py:563: in <genexpr>\n    show_unit = any(col.info.unit for col in table.columns.values())\nastropy/coordinates/sky_coordinate.py:52: in unit\n    repr_data = self._repr_data\nastropy/coordinates/sky_coordinate.py:67: in _repr_data\n    repr_data = sc.represent_as(sc.representation_type,\nastropy/coordinates/baseframe.py:1078: in represent_as\n    data = self.data.represent_as(representation_cls)\nastropy/coordinates/representation.py:873: in represent_as\n    new_rep = other_class.from_cartesian(self.to_cartesian())\nastropy/coordinates/representation.py:1606: in from_cartesian\n    p = cart.get_xyz(xyz_axis=-1)\nastropy/coordinates/representation.py:1351: in get_xyz\n    return np.stack([self._x, self._y, self._z], axis=xyz_axis)\nastropy/units/quantity.py:1683: in __array_function__\n    return super().__array_function__(function, types, args, kwargs)\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/numpy/core/shape_base.py:456: in stack\n    return _nx.concatenate(expanded_arrays, axis=axis, out=out,\nastropy/units/quantity.py:1688: in __array_function__\n    args, kwargs, unit, out = function_helper(*args, **kwargs)\nE   TypeError: concatenate() got an unexpected keyword argument 'dtype'\n______________________________ test_ndarray_mixin ______________________________\nastropy/table/tests/test_mixin.py:720: in test_ndarray_mixin\n    assert isinstance(t['a'], NdarrayMixin)\nE   AssertionError: assert False\nE    +  where False = isinstance(<Column name='a' dtype='(int32, str1)' length=4>\\n(1, 'a')\\n(2, 'b')\\n(3, 'c')\\n(4, 'd'), NdarrayMixin)\n============= 3 failed, 643 passed, 25 skipped, 1 xfailed in 3.10s =============\n\n\nERROR conda.cli.main_run:execute(124): `conda run python -m pytest -v --tb=short -rN astropy/table/tests/test_table.py astropy/table/tests/test_mixin.py` failed. (See above for error)",
+        "test_files_run": [
+          "astropy/table/tests/test_table.py",
+          "astropy/table/tests/test_mixin.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "astropy__astropy-14182",
+      "passed": true,
+      "duration": 6.83389687538147,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 9,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 6.53,
+        "log_tail": "Platform: Linux-6.8.0-1033-gcp-x86_64-with-glibc2.35\n\nExecutable: /opt/miniconda3/envs/testbed/bin/python\n\nFull Python Version: \n3.9.20 (main, Oct  3 2024, 07:27:41) \n[GCC 11.2.0]\n\nencodings: sys: utf-8, locale: UTF-8, filesystem: utf-8\nbyteorder: little\nfloat info: dig: 15, mant_dig: 15\n\nPackage versions: \nNumpy: 1.25.2\nScipy: not available\nMatplotlib: not available\nh5py: not available\nPandas: not available\nPyERFA: 2.0.0.3\nCython: not available\nScikit-image: not available\nasdf: not available\npyarrow: not available\n\nUsing Astropy options: remote_data: none.\n\nCI: undefined\nARCH_ON_CI: undefined\nIS_CRON: undefined\n\nrootdir: /testbed\nconfigfile: setup.cfg\nplugins: mock-3.11.1, astropy-0.10.0, remotedata-0.4.0, openfiles-0.5.0, xdist-3.3.1, filter-subpackage-0.1.2, hypothesis-6.82.6, doctestplus-1.0.0, arraydiff-0.5.0, cov-4.1.0, astropy-header-0.2.2\n\u001b[1mcollecting ... \u001b[0mcollected 9 items\n\nastropy/io/ascii/tests/test_rst.py::test_read_normal \u001b[32mPASSED\u001b[0m\u001b[32m              [ 11%]\u001b[0m\nastropy/io/ascii/tests/test_rst.py::test_read_normal_names \u001b[32mPASSED\u001b[0m\u001b[32m        [ 22%]\u001b[0m\nastropy/io/ascii/tests/test_rst.py::test_read_normal_names_include \u001b[32mPASSED\u001b[0m\u001b[32m [ 33%]\u001b[0m\nastropy/io/ascii/tests/test_rst.py::test_read_normal_exclude \u001b[32mPASSED\u001b[0m\u001b[32m      [ 44%]\u001b[0m\nastropy/io/ascii/tests/test_rst.py::test_read_unbounded_right_column \u001b[32mPASSED\u001b[0m\u001b[32m [ 55%]\u001b[0m\nastropy/io/ascii/tests/test_rst.py::test_read_unbounded_right_column_header \u001b[32mPASSED\u001b[0m\u001b[32m [ 66%]\u001b[0m\nastropy/io/ascii/tests/test_rst.py::test_read_right_indented_table \u001b[32mPASSED\u001b[0m\u001b[32m [ 77%]\u001b[0m\nastropy/io/ascii/tests/test_rst.py::test_trailing_spaces_in_row_definition \u001b[32mPASSED\u001b[0m\u001b[32m [ 88%]\u001b[0m\nastropy/io/ascii/tests/test_rst.py::test_write_normal \u001b[32mPASSED\u001b[0m\u001b[32m             [100%]\u001b[0m\n\n\u001b[32m============================== \u001b[32m\u001b[1m9 passed\u001b[0m\u001b[32m in 0.04s\u001b[0m\u001b[32m ===============================\u001b[0m\n\n\n<frozen importlib._bootstrap>:228: RuntimeWarning: numpy.ndarray size changed, may indicate binary incompatibility. Expected 80 from C header, got 96 from PyObject\n",
+        "test_files_run": [
+          "astropy/io/ascii/tests/test_rst.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "astropy__astropy-14365",
+      "passed": true,
+      "duration": 6.82933783531189,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 8,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 6.55,
+        "log_tail": "\nPlatform: Linux-6.8.0-1033-gcp-x86_64-with-glibc2.35\n\nExecutable: /opt/miniconda3/envs/testbed/bin/python\n\nFull Python Version: \n3.9.20 (main, Oct  3 2024, 07:27:41) \n[GCC 11.2.0]\n\nencodings: sys: utf-8, locale: UTF-8, filesystem: utf-8\nbyteorder: little\nfloat info: dig: 15, mant_dig: 15\n\nPackage versions: \nNumpy: 1.25.2\nScipy: not available\nMatplotlib: not available\nh5py: not available\nPandas: not available\nPyERFA: 2.0.0.3\nCython: not available\nScikit-image: not available\nasdf: not available\npyarrow: not available\n\nUsing Astropy options: remote_data: none.\n\nCI: undefined\nARCH_ON_CI: undefined\nIS_CRON: undefined\n\nrootdir: /testbed\nconfigfile: setup.cfg\nplugins: mock-3.11.1, astropy-0.10.0, remotedata-0.4.0, openfiles-0.5.0, xdist-3.3.1, filter-subpackage-0.1.2, hypothesis-6.82.6, doctestplus-1.0.0, arraydiff-0.5.0, cov-4.1.0, astropy-header-0.2.2\n\u001b[1mcollecting ... \u001b[0mcollected 8 items\n\nastropy/io/ascii/tests/test_qdp.py::test_get_tables_from_qdp_file \u001b[32mPASSED\u001b[0m\u001b[32m [ 12%]\u001b[0m\nastropy/io/ascii/tests/test_qdp.py::test_roundtrip \u001b[32mPASSED\u001b[0m\u001b[32m                [ 25%]\u001b[0m\nastropy/io/ascii/tests/test_qdp.py::test_read_example \u001b[32mPASSED\u001b[0m\u001b[32m             [ 37%]\u001b[0m\nastropy/io/ascii/tests/test_qdp.py::test_roundtrip_example \u001b[32mPASSED\u001b[0m\u001b[32m        [ 50%]\u001b[0m\nastropy/io/ascii/tests/test_qdp.py::test_roundtrip_example_comma \u001b[32mPASSED\u001b[0m\u001b[32m  [ 62%]\u001b[0m\nastropy/io/ascii/tests/test_qdp.py::test_read_write_simple \u001b[32mPASSED\u001b[0m\u001b[32m        [ 75%]\u001b[0m\nastropy/io/ascii/tests/test_qdp.py::test_read_write_simple_specify_name \u001b[32mPASSED\u001b[0m\u001b[32m [ 87%]\u001b[0m\nastropy/io/ascii/tests/test_qdp.py::test_get_lines_from_qdp \u001b[32mPASSED\u001b[0m\u001b[32m       [100%]\u001b[0m\n\n\u001b[32m============================== \u001b[32m\u001b[1m8 passed\u001b[0m\u001b[32m in 0.09s\u001b[0m\u001b[32m ===============================\u001b[0m\n\n\n<frozen importlib._bootstrap>:228: RuntimeWarning: numpy.ndarray size changed, may indicate binary incompatibility. Expected 80 from C header, got 96 from PyObject\n",
+        "test_files_run": [
+          "astropy/io/ascii/tests/test_qdp.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "astropy__astropy-14309",
+      "passed": true,
+      "duration": 9.574923038482666,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 154,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 9.27,
+        "log_tail": "astropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[Table-name_col8] \u001b[32mPASSED\u001b[0m\u001b[32m [ 72%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[Table-name_col9] \u001b[33mSKIPPED\u001b[0m\u001b[32m [ 72%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[Table-name_col10] \u001b[33mSKIPPED\u001b[0m\u001b[32m [ 73%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[Table-name_col11] \u001b[33mSKIPPED\u001b[0m\u001b[32m [ 74%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[Table-name_col12] \u001b[33mSKIPPED\u001b[0m\u001b[32m [ 74%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[Table-name_col13] \u001b[32mPASSED\u001b[0m\u001b[32m [ 75%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[Table-name_col14] \u001b[32mPASSED\u001b[0m\u001b[32m [ 75%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[Table-name_col15] \u001b[32mPASSED\u001b[0m\u001b[32m [ 76%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[Table-name_col16] \u001b[32mPASSED\u001b[0m\u001b[32m [ 77%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[Table-name_col17] \u001b[32mPASSED\u001b[0m\u001b[32m [ 77%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[Table-name_col18] \u001b[32mPASSED\u001b[0m\u001b[32m [ 78%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[Table-name_col19] \u001b[33mSKIPPED\u001b[0m\u001b[32m [ 79%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[Table-name_col20] \u001b[33mSKIPPED\u001b[0m\u001b[32m [ 79%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col0] \u001b[32mPASSED\u001b[0m\u001b[32m [ 80%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col1] \u001b[32mPASSED\u001b[0m\u001b[32m [ 81%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col2] \u001b[32mPASSED\u001b[0m\u001b[32m [ 81%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col3] \u001b[32mPASSED\u001b[0m\u001b[32m [ 82%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col4] \u001b[32mPASSED\u001b[0m\u001b[32m [ 83%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col5] \u001b[32mPASSED\u001b[0m\u001b[32m [ 83%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col6] \u001b[32mPASSED\u001b[0m\u001b[32m [ 84%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col7] \u001b[32mPASSED\u001b[0m\u001b[32m [ 85%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col8] \u001b[32mPASSED\u001b[0m\u001b[32m [ 85%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col9] \u001b[32mPASSED\u001b[0m\u001b[32m [ 86%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col10] \u001b[32mPASSED\u001b[0m\u001b[32m [ 87%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col11] \u001b[32mPASSED\u001b[0m\u001b[32m [ 87%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col12] \u001b[32mPASSED\u001b[0m\u001b[32m [ 88%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col13] \u001b[32mPASSED\u001b[0m\u001b[32m [ 88%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col14] \u001b[32mPASSED\u001b[0m\u001b[32m [ 89%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col15] \u001b[32mPASSED\u001b[0m\u001b[32m [ 90%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col16] \u001b[32mPASSED\u001b[0m\u001b[32m [ 90%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col17] \u001b[32mPASSED\u001b[0m\u001b[32m [ 91%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col18] \u001b[32mPASSED\u001b[0m\u001b[32m [ 92%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col19] \u001b[33mSKIPPED\u001b[0m\u001b[32m [ 92%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_mixins_per_column[QTable-name_col20] \u001b[33mSKIPPED\u001b[0m\u001b[32m [ 93%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_unsupported_mixin[name_col0] \u001b[33mXFAIL\u001b[0m\u001b[32m [ 94%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_unsupported_mixin[name_col1] \u001b[33mXFAIL\u001b[0m\u001b[32m [ 94%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_unsupported_mixin[name_col2] \u001b[33mXFAIL\u001b[0m\u001b[32m [ 95%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_unsupported_mixin[name_col3] \u001b[33mXFAIL\u001b[0m\u001b[32m [ 96%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_fits_unsupported_mixin[name_col4] \u001b[33mXFAIL\u001b[0m\u001b[32m [ 96%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_info_attributes_with_no_mixins \u001b[32mPASSED\u001b[0m\u001b[32m [ 97%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_round_trip_masked_table_serialize_mask[set_cols] \u001b[32mPASSED\u001b[0m\u001b[32m [ 98%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_round_trip_masked_table_serialize_mask[names] \u001b[32mPASSED\u001b[0m\u001b[32m [ 98%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_round_trip_masked_table_serialize_mask[class] \u001b[32mPASSED\u001b[0m\u001b[32m [ 99%]\u001b[0m\nastropy/io/fits/tests/test_connect.py::test_meta_not_modified \u001b[32mPASSED\u001b[0m\u001b[32m     [100%]\u001b[0m\n\n\u001b[32m================== \u001b[32m\u001b[1m141 passed\u001b[0m, \u001b[33m8 skipped\u001b[0m, \u001b[33m5 xfailed\u001b[0m\u001b[32m in 2.82s\u001b[0m\u001b[32m ===================\u001b[0m\n\n\n<frozen importlib._bootstrap>:228: RuntimeWarning: numpy.ndarray size changed, may indicate binary incompatibility. Expected 80 from C header, got 96 from PyObject\n",
+        "test_files_run": [
+          "astropy/io/fits/tests/test_connect.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "astropy__astropy-14369",
+      "passed": true,
+      "duration": 8.310390949249268,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 732,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.82,
+        "log_tail": "astropy/units/tests/test_format.py::test_powers[0.6666666666666666-m(2/3)] \u001b[32mPASSED\u001b[0m\u001b[32m [ 94%]\u001b[0m\nastropy/units/tests/test_format.py::test_powers[0.6363636363636364-m(7/11)] \u001b[32mPASSED\u001b[0m\u001b[32m [ 94%]\u001b[0m\nastropy/units/tests/test_format.py::test_powers[-0.015625-1 / m(1/64)] \u001b[32mPASSED\u001b[0m\u001b[32m [ 94%]\u001b[0m\nastropy/units/tests/test_format.py::test_powers[0.01-m(1/100)] \u001b[32mPASSED\u001b[0m\u001b[32m    [ 94%]\u001b[0m\nastropy/units/tests/test_format.py::test_powers[0.019801980198019802-m(0.019801980198019802)] \u001b[32mPASSED\u001b[0m\u001b[32m [ 94%]\u001b[0m\nastropy/units/tests/test_format.py::test_powers[power9-m(2/101)] \u001b[32mPASSED\u001b[0m\u001b[32m  [ 94%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[\\xb5g-unit0] \u001b[32mPASSED\u001b[0m\u001b[32m     [ 94%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[\\u03bcg-unit1] \u001b[32mPASSED\u001b[0m\u001b[32m   [ 95%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[g\\u22121-unit2] \u001b[32mPASSED\u001b[0m\u001b[32m  [ 95%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[m\\u207b\\xb9-unit3] \u001b[32mPASSED\u001b[0m\u001b[32m [ 95%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[m s\\u207b\\xb9-unit4] \u001b[32mPASSED\u001b[0m\u001b[32m [ 95%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[m\\xb2-unit5] \u001b[32mPASSED\u001b[0m\u001b[32m     [ 95%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[m\\u207a\\xb2-unit6] \u001b[32mPASSED\u001b[0m\u001b[32m [ 95%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[m\\xb3-unit7] \u001b[32mPASSED\u001b[0m\u001b[32m     [ 95%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[m\\xb9\\u2070-unit8] \u001b[32mPASSED\u001b[0m\u001b[32m [ 96%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[\\u03a9-unit9] \u001b[32mPASSED\u001b[0m\u001b[32m    [ 96%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[\\u2126-unit10] \u001b[32mPASSED\u001b[0m\u001b[32m   [ 96%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[\\xb5\\u03a9-unit11] \u001b[32mPASSED\u001b[0m\u001b[32m [ 96%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[\\u212b-unit12] \u001b[32mPASSED\u001b[0m\u001b[32m   [ 96%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[\\u212b \\u2126-unit13] \u001b[32mPASSED\u001b[0m\u001b[32m [ 96%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[\\xc5-unit14] \u001b[32mPASSED\u001b[0m\u001b[32m     [ 96%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[A\\u030a-unit15] \u001b[32mPASSED\u001b[0m\u001b[32m  [ 96%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[m\\u212b-unit16] \u001b[32mPASSED\u001b[0m\u001b[32m  [ 97%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[\\xb0C-unit17] \u001b[32mPASSED\u001b[0m\u001b[32m    [ 97%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[\\xb0-unit18] \u001b[32mPASSED\u001b[0m\u001b[32m     [ 97%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[M\\u2299-unit19] \u001b[32mPASSED\u001b[0m\u001b[32m  [ 97%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[L\\u2609-unit20] \u001b[32mPASSED\u001b[0m\u001b[32m  [ 97%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[M\\u2295-unit21] \u001b[32mPASSED\u001b[0m\u001b[32m  [ 97%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[M\\u2641-unit22] \u001b[32mPASSED\u001b[0m\u001b[32m  [ 97%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[R\\u2643-unit23] \u001b[32mPASSED\u001b[0m\u001b[32m  [ 98%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[\\u2032-unit24] \u001b[32mPASSED\u001b[0m\u001b[32m   [ 98%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[R\\u221e-unit25] \u001b[32mPASSED\u001b[0m\u001b[32m  [ 98%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode[M\\u209a-unit26] \u001b[32mPASSED\u001b[0m\u001b[32m  [ 98%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode_failures[g\\xb5] \u001b[32mPASSED\u001b[0m\u001b[32m  [ 98%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode_failures[g\\u2212] \u001b[32mPASSED\u001b[0m\u001b[32m [ 98%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode_failures[m\\u207b1] \u001b[32mPASSED\u001b[0m\u001b[32m [ 98%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode_failures[m+\\xb9] \u001b[32mPASSED\u001b[0m\u001b[32m [ 99%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode_failures[m\\u2212\\xb9] \u001b[32mPASSED\u001b[0m\u001b[32m [ 99%]\u001b[0m\nastropy/units/tests/test_format.py::test_unicode_failures[k\\u212b] \u001b[32mPASSED\u001b[0m\u001b[32m [ 99%]\u001b[0m\nastropy/units/tests/test_format.py::test_parse_error_message_for_output_only_format[unicode] \u001b[32mPASSED\u001b[0m\u001b[32m [ 99%]\u001b[0m\nastropy/units/tests/test_format.py::test_parse_error_message_for_output_only_format[latex] \u001b[32mPASSED\u001b[0m\u001b[32m [ 99%]\u001b[0m\nastropy/units/tests/test_format.py::test_parse_error_message_for_output_only_format[latex_inline] \u001b[32mPASSED\u001b[0m\u001b[32m [ 99%]\u001b[0m\nastropy/units/tests/test_format.py::test_unknown_parser \u001b[32mPASSED\u001b[0m\u001b[32m           [ 99%]\u001b[0m\nastropy/units/tests/test_format.py::test_celsius_fits \u001b[32mPASSED\u001b[0m\u001b[32m             [100%]\u001b[0m\n\n\u001b[32m============================= \u001b[32m\u001b[1m732 passed\u001b[0m\u001b[32m in 1.26s\u001b[0m\u001b[32m ==============================\u001b[0m\n\n\n<frozen importlib._bootstrap>:228: RuntimeWarning: numpy.ndarray size changed, may indicate binary incompatibility. Expected 80 from C header, got 96 from PyObject\n",
+        "test_files_run": [
+          "astropy/units/tests/test_format.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "astropy__astropy-14508",
+      "passed": true,
+      "duration": 7.716556072235107,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 174,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.44,
+        "log_tail": "astropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_header_strip_whitespace \u001b[32mPASSED\u001b[0m\u001b[32m [ 75%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_keep_duplicate_history_in_orig_header \u001b[32mPASSED\u001b[0m\u001b[32m [ 75%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_invalid_keyword_cards \u001b[32mPASSED\u001b[0m\u001b[32m [ 76%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_fix_hierarch_with_invalid_value \u001b[32mPASSED\u001b[0m\u001b[32m [ 77%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_assign_inf_nan \u001b[32mPASSED\u001b[0m\u001b[32m [ 77%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_update_bool \u001b[32mPASSED\u001b[0m\u001b[32m [ 78%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_update_numeric \u001b[32mPASSED\u001b[0m\u001b[32m [ 78%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_newlines_in_commentary \u001b[32mPASSED\u001b[0m\u001b[32m [ 79%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_long_commentary_card_appended_to_header \u001b[32mPASSED\u001b[0m\u001b[32m [ 79%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_header_fromstring_bytes \u001b[32mPASSED\u001b[0m\u001b[32m [ 80%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_set_keyword_with_space \u001b[32mPASSED\u001b[0m\u001b[32m [ 81%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_strip \u001b[32mPASSED\u001b[0m\u001b[32m [ 81%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_update_invalid_card \u001b[32mPASSED\u001b[0m\u001b[32m [ 82%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_index_numpy_int \u001b[32mPASSED\u001b[0m\u001b[32m [ 82%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_header_data_size \u001b[32mPASSED\u001b[0m\u001b[32m [ 83%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_initialize_rvkc \u001b[32mPASSED\u001b[0m\u001b[32m [ 83%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_parse_field_specifier \u001b[32mPASSED\u001b[0m\u001b[32m [ 84%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_update_field_specifier \u001b[32mPASSED\u001b[0m\u001b[32m [ 85%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_field_specifier_case_senstivity \u001b[32mPASSED\u001b[0m\u001b[32m [ 85%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_get_rvkc_by_index \u001b[32mPASSED\u001b[0m\u001b[32m [ 86%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_get_rvkc_by_keyword \u001b[32mPASSED\u001b[0m\u001b[32m [ 86%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_get_rvkc_by_keyword_and_field_specifier \u001b[32mPASSED\u001b[0m\u001b[32m [ 87%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_access_nonexistent_rvkc \u001b[32mPASSED\u001b[0m\u001b[32m [ 87%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_update_rvkc \u001b[32mPASSED\u001b[0m\u001b[32m [ 88%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_update_rvkc_2 \u001b[32mPASSED\u001b[0m\u001b[32m [ 89%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_raw_keyword_value \u001b[32mPASSED\u001b[0m\u001b[32m [ 89%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_rvkc_insert_after \u001b[32mPASSED\u001b[0m\u001b[32m [ 90%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_rvkc_delete \u001b[32mPASSED\u001b[0m\u001b[32m [ 90%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_pattern_matching_keys \u001b[32mPASSED\u001b[0m\u001b[32m [ 91%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_pattern_matching_key_deletion \u001b[32mPASSED\u001b[0m\u001b[32m [ 91%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_successive_pattern_matching \u001b[32mPASSED\u001b[0m\u001b[32m [ 92%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_rvkc_in_cardlist_keys \u001b[32mPASSED\u001b[0m\u001b[32m [ 93%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_rvkc_in_cardlist_values \u001b[32mPASSED\u001b[0m\u001b[32m [ 93%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_rvkc_value_attribute \u001b[32mPASSED\u001b[0m\u001b[32m [ 94%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_overly_permissive_parsing \u001b[32mPASSED\u001b[0m\u001b[32m [ 94%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_overly_aggressive_rvkc_lookup \u001b[32mPASSED\u001b[0m\u001b[32m [ 95%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_fitsheader_script \u001b[32mPASSED\u001b[0m\u001b[32m [ 95%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_fitsheader_compressed_from_primary_image_ext \u001b[32mPASSED\u001b[0m\u001b[32m [ 96%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_fitsheader_table_feature \u001b[32mPASSED\u001b[0m\u001b[32m [ 97%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_hdu_writeto_mode[wb] \u001b[32mPASSED\u001b[0m\u001b[32m [ 97%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_hdu_writeto_mode[wb+] \u001b[32mPASSED\u001b[0m\u001b[32m [ 98%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_hdu_writeto_mode[ab] \u001b[32mPASSED\u001b[0m\u001b[32m [ 98%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_hdu_writeto_mode[ab+] \u001b[32mPASSED\u001b[0m\u001b[32m [ 99%]\u001b[0m\nastropy/io/fits/tests/test_header.py::test_subclass \u001b[32mPASSED\u001b[0m\u001b[32m               [100%]\u001b[0m\n\n\u001b[32m============================= \u001b[32m\u001b[1m174 passed\u001b[0m\u001b[32m in 0.96s\u001b[0m\u001b[32m ==============================\u001b[0m\n\n\n<frozen importlib._bootstrap>:228: RuntimeWarning: numpy.ndarray size changed, may indicate binary incompatibility. Expected 80 from C header, got 96 from PyObject\n",
+        "test_files_run": [
+          "astropy/io/fits/tests/test_header.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "astropy__astropy-14539",
+      "passed": true,
+      "duration": 7.1845619678497314,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 48,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 6.9,
+        "log_tail": "astropy/io/fits/tests/test_diff.py::TestDiff::test_different_keywords \u001b[32mPASSED\u001b[0m\u001b[32m [ 10%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_different_keyword_values \u001b[32mPASSED\u001b[0m\u001b[32m [ 12%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_different_keyword_comments \u001b[32mPASSED\u001b[0m\u001b[32m [ 14%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_different_keyword_values_with_duplicate \u001b[32mPASSED\u001b[0m\u001b[32m [ 16%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_asymmetric_duplicate_keywords \u001b[32mPASSED\u001b[0m\u001b[32m [ 18%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_floating_point_rtol \u001b[32mPASSED\u001b[0m\u001b[32m [ 20%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_floating_point_atol \u001b[32mPASSED\u001b[0m\u001b[32m [ 22%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_ignore_blanks \u001b[32mPASSED\u001b[0m\u001b[32m  [ 25%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_ignore_blank_cards[HeaderDiff] \u001b[32mPASSED\u001b[0m\u001b[32m [ 27%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_ignore_blank_cards[HDUDiff] \u001b[32mPASSED\u001b[0m\u001b[32m [ 29%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_ignore_blank_cards[FITSDiff] \u001b[32mPASSED\u001b[0m\u001b[32m [ 31%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_ignore_hdus \u001b[32mPASSED\u001b[0m\u001b[32m    [ 33%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_ignore_keyword_values \u001b[32mPASSED\u001b[0m\u001b[32m [ 35%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_ignore_keyword_comments \u001b[32mPASSED\u001b[0m\u001b[32m [ 37%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_trivial_identical_images \u001b[32mPASSED\u001b[0m\u001b[32m [ 39%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_identical_within_relative_tolerance \u001b[32mPASSED\u001b[0m\u001b[32m [ 41%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_identical_within_absolute_tolerance \u001b[32mPASSED\u001b[0m\u001b[32m [ 43%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_identical_within_rtol_and_atol \u001b[32mPASSED\u001b[0m\u001b[32m [ 45%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_not_identical_within_rtol_and_atol \u001b[32mPASSED\u001b[0m\u001b[32m [ 47%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_identical_comp_image_hdus \u001b[32mPASSED\u001b[0m\u001b[32m [ 50%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_different_dimensions \u001b[32mPASSED\u001b[0m\u001b[32m [ 52%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_different_pixels \u001b[32mPASSED\u001b[0m\u001b[32m [ 54%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_identical_tables \u001b[32mPASSED\u001b[0m\u001b[32m [ 56%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_diff_empty_tables \u001b[32mPASSED\u001b[0m\u001b[32m [ 58%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_ignore_table_fields \u001b[32mPASSED\u001b[0m\u001b[32m [ 60%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_different_table_field_names \u001b[32mPASSED\u001b[0m\u001b[32m [ 62%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_different_table_field_counts \u001b[32mPASSED\u001b[0m\u001b[32m [ 64%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_different_table_rows \u001b[32mPASSED\u001b[0m\u001b[32m [ 66%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_different_table_data \u001b[32mPASSED\u001b[0m\u001b[32m [ 68%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_identical_files_basic \u001b[32mPASSED\u001b[0m\u001b[32m [ 70%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_partially_identical_files1 \u001b[32mPASSED\u001b[0m\u001b[32m [ 72%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_partially_identical_files2 \u001b[32mPASSED\u001b[0m\u001b[32m [ 75%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_partially_identical_files3 \u001b[32mPASSED\u001b[0m\u001b[32m [ 77%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_diff_nans \u001b[32mPASSED\u001b[0m\u001b[32m      [ 79%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_file_output_from_path_string \u001b[32mPASSED\u001b[0m\u001b[32m [ 81%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_file_output_overwrite_safety \u001b[32mPASSED\u001b[0m\u001b[32m [ 83%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_file_output_overwrite_success \u001b[32mPASSED\u001b[0m\u001b[32m [ 85%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_rawdatadiff_nodiff \u001b[32mPASSED\u001b[0m\u001b[32m [ 87%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_rawdatadiff_dimsdiff \u001b[32mPASSED\u001b[0m\u001b[32m [ 89%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::TestDiff::test_rawdatadiff_bytesdiff \u001b[32mPASSED\u001b[0m\u001b[32m [ 91%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::test_fitsdiff_hdu_name \u001b[32mPASSED\u001b[0m\u001b[32m        [ 93%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::test_fitsdiff_no_hdu_name \u001b[32mPASSED\u001b[0m\u001b[32m     [ 95%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::test_fitsdiff_with_names \u001b[32mPASSED\u001b[0m\u001b[32m      [ 97%]\u001b[0m\nastropy/io/fits/tests/test_diff.py::test_rawdatadiff_diff_with_rtol \u001b[32mPASSED\u001b[0m\u001b[32m [100%]\u001b[0m\n\n\u001b[32m============================== \u001b[32m\u001b[1m48 passed\u001b[0m\u001b[32m in 0.40s\u001b[0m\u001b[32m ==============================\u001b[0m\n\n\n<frozen importlib._bootstrap>:228: RuntimeWarning: numpy.ndarray size changed, may indicate binary incompatibility. Expected 80 from C header, got 96 from PyObject\n",
+        "test_files_run": [
+          "astropy/io/fits/tests/test_diff.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "astropy__astropy-14598",
+      "passed": true,
+      "duration": 7.659225702285767,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 175,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.39,
+        "log_tail": "astropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_header_strip_whitespace \u001b[32mPASSED\u001b[0m\u001b[32m [ 75%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_keep_duplicate_history_in_orig_header \u001b[32mPASSED\u001b[0m\u001b[32m [ 76%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_invalid_keyword_cards \u001b[32mPASSED\u001b[0m\u001b[32m [ 76%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_fix_hierarch_with_invalid_value \u001b[32mPASSED\u001b[0m\u001b[32m [ 77%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_assign_inf_nan \u001b[32mPASSED\u001b[0m\u001b[32m [ 77%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_update_bool \u001b[32mPASSED\u001b[0m\u001b[32m [ 78%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_update_numeric \u001b[32mPASSED\u001b[0m\u001b[32m [ 78%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_newlines_in_commentary \u001b[32mPASSED\u001b[0m\u001b[32m [ 79%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_long_commentary_card_appended_to_header \u001b[32mPASSED\u001b[0m\u001b[32m [ 80%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_header_fromstring_bytes \u001b[32mPASSED\u001b[0m\u001b[32m [ 80%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_set_keyword_with_space \u001b[32mPASSED\u001b[0m\u001b[32m [ 81%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_strip \u001b[32mPASSED\u001b[0m\u001b[32m [ 81%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_update_invalid_card \u001b[32mPASSED\u001b[0m\u001b[32m [ 82%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_index_numpy_int \u001b[32mPASSED\u001b[0m\u001b[32m [ 82%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestHeaderFunctions::test_header_data_size \u001b[32mPASSED\u001b[0m\u001b[32m [ 83%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_initialize_rvkc \u001b[32mPASSED\u001b[0m\u001b[32m [ 84%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_parse_field_specifier \u001b[32mPASSED\u001b[0m\u001b[32m [ 84%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_update_field_specifier \u001b[32mPASSED\u001b[0m\u001b[32m [ 85%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_field_specifier_case_senstivity \u001b[32mPASSED\u001b[0m\u001b[32m [ 85%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_get_rvkc_by_index \u001b[32mPASSED\u001b[0m\u001b[32m [ 86%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_get_rvkc_by_keyword \u001b[32mPASSED\u001b[0m\u001b[32m [ 86%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_get_rvkc_by_keyword_and_field_specifier \u001b[32mPASSED\u001b[0m\u001b[32m [ 87%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_access_nonexistent_rvkc \u001b[32mPASSED\u001b[0m\u001b[32m [ 88%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_update_rvkc \u001b[32mPASSED\u001b[0m\u001b[32m [ 88%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_update_rvkc_2 \u001b[32mPASSED\u001b[0m\u001b[32m [ 89%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_raw_keyword_value \u001b[32mPASSED\u001b[0m\u001b[32m [ 89%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_rvkc_insert_after \u001b[32mPASSED\u001b[0m\u001b[32m [ 90%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_rvkc_delete \u001b[32mPASSED\u001b[0m\u001b[32m [ 90%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_pattern_matching_keys \u001b[32mPASSED\u001b[0m\u001b[32m [ 91%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_pattern_matching_key_deletion \u001b[32mPASSED\u001b[0m\u001b[32m [ 92%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_successive_pattern_matching \u001b[32mPASSED\u001b[0m\u001b[32m [ 92%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_rvkc_in_cardlist_keys \u001b[32mPASSED\u001b[0m\u001b[32m [ 93%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_rvkc_in_cardlist_values \u001b[32mPASSED\u001b[0m\u001b[32m [ 93%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_rvkc_value_attribute \u001b[32mPASSED\u001b[0m\u001b[32m [ 94%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_overly_permissive_parsing \u001b[32mPASSED\u001b[0m\u001b[32m [ 94%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_overly_aggressive_rvkc_lookup \u001b[32mPASSED\u001b[0m\u001b[32m [ 95%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_fitsheader_script \u001b[32mPASSED\u001b[0m\u001b[32m [ 96%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_fitsheader_compressed_from_primary_image_ext \u001b[32mPASSED\u001b[0m\u001b[32m [ 96%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_fitsheader_table_feature \u001b[32mPASSED\u001b[0m\u001b[32m [ 97%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_hdu_writeto_mode[wb] \u001b[32mPASSED\u001b[0m\u001b[32m [ 97%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_hdu_writeto_mode[wb+] \u001b[32mPASSED\u001b[0m\u001b[32m [ 98%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_hdu_writeto_mode[ab] \u001b[32mPASSED\u001b[0m\u001b[32m [ 98%]\u001b[0m\nastropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_hdu_writeto_mode[ab+] \u001b[32mPASSED\u001b[0m\u001b[32m [ 99%]\u001b[0m\nastropy/io/fits/tests/test_header.py::test_subclass \u001b[32mPASSED\u001b[0m\u001b[32m               [100%]\u001b[0m\n\n\u001b[32m============================= \u001b[32m\u001b[1m175 passed\u001b[0m\u001b[32m in 0.96s\u001b[0m\u001b[32m ==============================\u001b[0m\n\n\n<frozen importlib._bootstrap>:228: RuntimeWarning: numpy.ndarray size changed, may indicate binary incompatibility. Expected 80 from C header, got 96 from PyObject\n",
+        "test_files_run": [
+          "astropy/io/fits/tests/test_header.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "astropy__astropy-14995",
+      "passed": true,
+      "duration": 7.618328094482422,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 179,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.34,
+        "log_tail": "astropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_stddevuncertainty_with_units[uncert18-uncert28] \u001b[32mPASSED\u001b[0m\u001b[32m [ 75%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_stddevuncertainty_with_units[uncert19-uncert29] \u001b[32mPASSED\u001b[0m\u001b[32m [ 76%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_stddevuncertainty_with_units[uncert110-uncert210] \u001b[32mPASSED\u001b[0m\u001b[32m [ 77%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_stddevuncertainty_with_units[uncert111-uncert211] \u001b[32mPASSED\u001b[0m\u001b[32m [ 77%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_varianceuncertainty_with_units[uncert10-None] \u001b[32mPASSED\u001b[0m\u001b[32m [ 78%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_varianceuncertainty_with_units[uncert11-None] \u001b[32mPASSED\u001b[0m\u001b[32m [ 78%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_varianceuncertainty_with_units[None-uncert22] \u001b[32mPASSED\u001b[0m\u001b[32m [ 79%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_varianceuncertainty_with_units[None-uncert23] \u001b[32mPASSED\u001b[0m\u001b[32m [ 79%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_varianceuncertainty_with_units[uncert14-uncert24] \u001b[32mPASSED\u001b[0m\u001b[32m [ 80%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_varianceuncertainty_with_units[uncert15-uncert25] \u001b[32mPASSED\u001b[0m\u001b[32m [ 81%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_varianceuncertainty_with_units[uncert16-uncert26] \u001b[32mPASSED\u001b[0m\u001b[32m [ 81%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_varianceuncertainty_with_units[uncert17-uncert27] \u001b[32mPASSED\u001b[0m\u001b[32m [ 82%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_varianceuncertainty_with_units[uncert18-uncert28] \u001b[32mPASSED\u001b[0m\u001b[32m [ 82%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_varianceuncertainty_with_units[uncert19-uncert29] \u001b[32mPASSED\u001b[0m\u001b[32m [ 83%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_varianceuncertainty_with_units[uncert110-uncert210] \u001b[32mPASSED\u001b[0m\u001b[32m [ 83%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_varianceuncertainty_with_units[uncert111-uncert211] \u001b[32mPASSED\u001b[0m\u001b[32m [ 84%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_inversevarianceuncertainty_with_units[uncert10-None] \u001b[32mPASSED\u001b[0m\u001b[32m [ 84%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_inversevarianceuncertainty_with_units[uncert11-None] \u001b[32mPASSED\u001b[0m\u001b[32m [ 85%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_inversevarianceuncertainty_with_units[None-uncert22] \u001b[32mPASSED\u001b[0m\u001b[32m [ 86%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_inversevarianceuncertainty_with_units[None-uncert23] \u001b[32mPASSED\u001b[0m\u001b[32m [ 86%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_inversevarianceuncertainty_with_units[uncert14-uncert24] \u001b[32mPASSED\u001b[0m\u001b[32m [ 87%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_inversevarianceuncertainty_with_units[uncert15-uncert25] \u001b[32mPASSED\u001b[0m\u001b[32m [ 87%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_inversevarianceuncertainty_with_units[uncert16-uncert26] \u001b[32mPASSED\u001b[0m\u001b[32m [ 88%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_inversevarianceuncertainty_with_units[uncert17-uncert27] \u001b[32mPASSED\u001b[0m\u001b[32m [ 88%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_inversevarianceuncertainty_with_units[uncert18-uncert28] \u001b[32mPASSED\u001b[0m\u001b[32m [ 89%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_inversevarianceuncertainty_with_units[uncert19-uncert29] \u001b[32mPASSED\u001b[0m\u001b[32m [ 89%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_inversevarianceuncertainty_with_units[uncert110-uncert210] \u001b[32mPASSED\u001b[0m\u001b[32m [ 90%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_inversevarianceuncertainty_with_units[uncert111-uncert211] \u001b[32mPASSED\u001b[0m\u001b[32m [ 91%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_handle_switches[ff] \u001b[32mPASSED\u001b[0m\u001b[32m [ 91%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_handle_switches[first_found] \u001b[32mPASSED\u001b[0m\u001b[32m [ 92%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_meta_func \u001b[32mPASSED\u001b[0m\u001b[32m [ 92%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_wcs_func \u001b[32mPASSED\u001b[0m\u001b[32m [ 93%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_mask_func \u001b[32mPASSED\u001b[0m\u001b[32m [ 93%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_two_argument_useage[add] \u001b[32mPASSED\u001b[0m\u001b[32m [ 94%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_two_argument_useage[subtract] \u001b[32mPASSED\u001b[0m\u001b[32m [ 94%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_two_argument_useage[divide] \u001b[32mPASSED\u001b[0m\u001b[32m [ 95%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_two_argument_useage[multiply] \u001b[32mPASSED\u001b[0m\u001b[32m [ 96%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_two_argument_useage_non_nddata_first_arg[add] \u001b[32mPASSED\u001b[0m\u001b[32m [ 96%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_two_argument_useage_non_nddata_first_arg[subtract] \u001b[32mPASSED\u001b[0m\u001b[32m [ 97%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_two_argument_useage_non_nddata_first_arg[divide] \u001b[32mPASSED\u001b[0m\u001b[32m [ 97%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_two_argument_useage_non_nddata_first_arg[multiply] \u001b[32mPASSED\u001b[0m\u001b[32m [ 98%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_arithmetics_unknown_uncertainties \u001b[32mPASSED\u001b[0m\u001b[32m [ 98%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_psf_warning \u001b[32mPASSED\u001b[0m\u001b[32m [ 99%]\u001b[0m\nastropy/nddata/mixins/tests/test_ndarithmetic.py::test_raise_method_not_supported \u001b[32mPASSED\u001b[0m\u001b[32m [100%]\u001b[0m\n\n\u001b[32m============================= \u001b[32m\u001b[1m179 passed\u001b[0m\u001b[32m in 0.81s\u001b[0m\u001b[32m ==============================\u001b[0m\n\n\n<frozen importlib._bootstrap>:228: RuntimeWarning: numpy.ndarray size changed, may indicate binary incompatibility. Expected 80 from C header, got 96 from PyObject\n",
+        "test_files_run": [
+          "astropy/nddata/mixins/tests/test_ndarithmetic.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "astropy__astropy-7166",
+      "passed": true,
+      "duration": 12.643539190292358,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 9,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 12.18,
+        "log_tail": "platform linux -- Python 3.6.13, pytest-3.3.1, py-1.11.0, pluggy-0.6.0 -- /opt/miniconda3/envs/testbed/bin/python\ncachedir: .\n\nRunning tests with Astropy version 3.1.dev21446.\nRunning tests in astropy/utils/tests/test_misc.py.\n\nDate: 2025-08-10T13:08:34\n\nPlatform: Linux-6.8.0-1033-gcp-x86_64-with-debian-bookworm-sid\n\nExecutable: /opt/miniconda3/envs/testbed/bin/python\n\nFull Python Version: \n3.6.13 |Anaconda, Inc.| (default, Jun  4 2021, 14:25:59) \n[GCC 7.5.0]\n\nencodings: sys: utf-8, locale: UTF-8, filesystem: utf-8\nbyteorder: little\nfloat info: dig: 15, mant_dig: 15\n\nNumpy: 1.16.0\nScipy: not available\nMatplotlib: not available\nh5py: not available\nPandas: not available\nCython: 0.27.3\nUsing Astropy options: remote_data: none.\n\nrootdir: /testbed, inifile: setup.cfg\nplugins: xdist-1.20.1, remotedata-0.2.0, openfiles-0.2.0, mock-1.6.3, forked-0.2, filter-subpackage-0.1, doctestplus-0.1.2, cov-2.5.1, astropy-header-0.1, arraydiff-0.1, hypothesis-3.44.2\ncollecting ... collected 9 items\n\nastropy/utils/tests/test_misc.py::test_isiterable PASSED                 [ 11%]\nastropy/utils/tests/test_misc.py::test_signal_number_to_name_no_failure PASSED [ 22%]\nastropy/utils/tests/test_misc.py::test_api_lookup SKIPPED                [ 33%]\nastropy/utils/tests/test_misc.py::test_skip_hidden PASSED                [ 44%]\nastropy/utils/tests/test_misc.py::test_JsonCustomEncoder PASSED          [ 55%]\nastropy/utils/tests/test_misc.py::test_inherit_docstrings PASSED         [ 66%]\nastropy/utils/tests/test_misc.py::test_set_locale PASSED                 [ 77%]\nastropy/utils/tests/test_misc.py::test_check_broadcast PASSED            [ 88%]\nastropy/utils/tests/test_misc.py::test_dtype_bytes_or_chars PASSED       [100%]\n\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n=============== 8 passed, 1 skipped, 1 warnings in 0.18 seconds ================\n\n",
+        "test_files_run": [
+          "astropy/utils/tests/test_misc.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "astropy__astropy-7336",
+      "passed": false,
+      "duration": 11.927738189697266,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 1,
+        "skipped": 0,
+        "duration": 11.65,
+        "log_tail": "Internet access disabled\n============================= test session starts ==============================\nplatform linux -- Python 3.6.13, pytest-3.3.1, py-1.11.0, pluggy-0.6.0 -- /opt/miniconda3/envs/testbed/bin/python\ncachedir: .\n\nRunning tests with Astropy version 3.1.dev21681.\nRunning tests in astropy/units/tests/test_quantity_annotations.py astropy/units/tests/test_quantity_decorator.py astropy/units/tests/py3_test_quantity_annotations.py.\n\nDate: 2025-08-10T13:08:39\n\nPlatform: Linux-6.8.0-1033-gcp-x86_64-with-debian-bookworm-sid\n\nExecutable: /opt/miniconda3/envs/testbed/bin/python\n\nFull Python Version: \n3.6.13 |Anaconda, Inc.| (default, Jun  4 2021, 14:25:59) \n[GCC 7.5.0]\n\nencodings: sys: utf-8, locale: UTF-8, filesystem: utf-8\nbyteorder: little\nfloat info: dig: 15, mant_dig: 15\n\nNumpy: 1.16.0\nScipy: not available\nMatplotlib: not available\nh5py: not available\nPandas: not available\nCython: 0.27.3\nUsing Astropy options: remote_data: none.\n\nrootdir: /testbed, inifile: setup.cfg\nplugins: xdist-1.20.1, remotedata-0.2.0, openfiles-0.2.0, mock-1.6.3, forked-0.2, filter-subpackage-0.1, doctestplus-0.1.2, cov-2.5.1, astropy-header-0.1, arraydiff-0.1, hypothesis-3.44.2\ncollecting ... \n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n========================== 1 warnings in 0.03 seconds ==========================\n\n\nERROR: file not found: astropy/units/tests/test_quantity_annotations.py\n\nERROR conda.cli.main_run:execute(124): `conda run python -m pytest -v --tb=short -rN astropy/units/tests/test_quantity_annotations.py astropy/units/tests/test_quantity_decorator.py astropy/units/tests/py3_test_quantity_annotations.py` failed. (See above for error)",
+        "test_files_run": [
+          "astropy/units/tests/test_quantity_annotations.py",
+          "astropy/units/tests/test_quantity_decorator.py",
+          "astropy/units/tests/py3_test_quantity_annotations.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "astropy__astropy-7671",
+      "passed": true,
+      "duration": 6.547773122787476,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 4,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 6.18,
+        "log_tail": "Internet access disabled\n============================= test session starts ==============================\nplatform linux -- Python 3.6.13, pytest-3.3.1, py-1.11.0, pluggy-0.6.0 -- /opt/miniconda3/envs/testbed/bin/python\ncachedir: .\n\nRunning tests with Astropy version 3.1.dev22226.\nRunning tests in astropy/utils/tests/test_introspection.py.\n\nDate: 2025-08-10T13:08:41\n\nPlatform: Linux-6.8.0-1033-gcp-x86_64-with-debian-bookworm-sid\n\nExecutable: /opt/miniconda3/envs/testbed/bin/python\n\nFull Python Version: \n3.6.13 |Anaconda, Inc.| (default, Jun  4 2021, 14:25:59) \n[GCC 7.5.0]\n\nencodings: sys: utf-8, locale: UTF-8, filesystem: utf-8\nbyteorder: little\nfloat info: dig: 15, mant_dig: 15\n\nNumpy: 1.16.0\nScipy: not available\nMatplotlib: not available\nh5py: not available\nPandas: not available\nCython: 0.27.3\nastropy_helpers: 3.0.2\nUsing Astropy options: remote_data: none.\n\nrootdir: /testbed, inifile: setup.cfg\nplugins: xdist-1.20.1, remotedata-0.2.0, openfiles-0.2.0, mock-1.6.3, forked-0.2, filter-subpackage-0.1, doctestplus-0.1.2, cov-2.5.1, astropy-header-0.1, arraydiff-0.1, hypothesis-3.44.2\ncollecting ... collected 4 items\n\nastropy/utils/tests/test_introspection.py::test_pkg_finder PASSED        [ 25%]\nastropy/utils/tests/test_introspection.py::test_find_current_mod PASSED  [ 50%]\nastropy/utils/tests/test_introspection.py::test_find_mod_objs PASSED     [ 75%]\nastropy/utils/tests/test_introspection.py::test_minversion PASSED        [100%]\n\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n===================== 4 passed, 1 warnings in 0.05 seconds =====================\n\n",
+        "test_files_run": [
+          "astropy/utils/tests/test_introspection.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "astropy__astropy-7606",
+      "passed": true,
+      "duration": 14.516901016235352,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 242,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 14.24,
+        "log_tail": "astropy/units/tests/test_units.py::test_decompose_to_cgs PASSED          [ 83%]\nastropy/units/tests/test_units.py::test_compose_issue_579 PASSED         [ 83%]\nastropy/units/tests/test_units.py::test_compose_prefix_unit PASSED       [ 84%]\nastropy/units/tests/test_units.py::test_self_compose PASSED              [ 84%]\nastropy/units/tests/test_units.py::test_compose_failed PASSED            [ 85%]\nastropy/units/tests/test_units.py::test_compose_fractional_powers PASSED [ 85%]\nastropy/units/tests/test_units.py::test_compose_best_unit_first PASSED   [ 85%]\nastropy/units/tests/test_units.py::test_compose_no_duplicates PASSED     [ 86%]\nastropy/units/tests/test_units.py::test_long_int PASSED                  [ 86%]\nastropy/units/tests/test_units.py::test_endian_independence PASSED       [ 87%]\nastropy/units/tests/test_units.py::test_radian_base PASSED               [ 87%]\nastropy/units/tests/test_units.py::test_no_as PASSED                     [ 88%]\nastropy/units/tests/test_units.py::test_no_duplicates_in_names PASSED    [ 88%]\nastropy/units/tests/test_units.py::test_pickling PASSED                  [ 88%]\nastropy/units/tests/test_units.py::test_pickle_unrecognized_unit PASSED  [ 89%]\nastropy/units/tests/test_units.py::test_duplicate_define PASSED          [ 89%]\nastropy/units/tests/test_units.py::test_all_units PASSED                 [ 90%]\nastropy/units/tests/test_units.py::test_repr_latex PASSED                [ 90%]\nastropy/units/tests/test_units.py::test_operations_with_strings PASSED   [ 90%]\nastropy/units/tests/test_units.py::test_comparison PASSED                [ 91%]\nastropy/units/tests/test_units.py::test_compose_into_arbitrary_units PASSED [ 91%]\nastropy/units/tests/test_units.py::test_unit_multiplication_with_string PASSED [ 92%]\nastropy/units/tests/test_units.py::test_unit_division_by_string PASSED   [ 92%]\nastropy/units/tests/test_units.py::test_sorted_bases PASSED              [ 92%]\nastropy/units/tests/test_units.py::test_megabit PASSED                   [ 93%]\nastropy/units/tests/test_units.py::test_composite_unit_get_format_name PASSED [ 93%]\nastropy/units/tests/test_units.py::test_unicode_policy PASSED            [ 94%]\nastropy/units/tests/test_units.py::test_suggestions PASSED               [ 94%]\nastropy/units/tests/test_units.py::test_fits_hst_unit PASSED             [ 95%]\nastropy/units/tests/test_units.py::test_barn_prefixes PASSED             [ 95%]\nastropy/units/tests/test_units.py::test_fractional_powers PASSED         [ 95%]\nastropy/units/tests/test_units.py::test_inherit_docstrings PASSED        [ 96%]\nastropy/units/tests/test_units.py::test_sqrt_mag PASSED                  [ 96%]\nastropy/units/tests/test_units.py::test_composite_compose PASSED         [ 97%]\nastropy/units/tests/test_units.py::test_data_quantities PASSED           [ 97%]\nastropy/units/tests/test_units.py::test_compare_with_none PASSED         [ 97%]\nastropy/units/tests/test_units.py::test_validate_power_detect_fraction PASSED [ 98%]\nastropy/units/tests/test_units.py::test_complex_fractional_rounding_errors PASSED [ 98%]\nastropy/units/tests/test_units.py::test_fractional_rounding_errors_simple PASSED [ 99%]\nastropy/units/tests/test_units.py::test_enable_unit_groupings PASSED     [ 99%]\nastropy/units/tests/test_units.py::test_unit_summary_prefixes PASSED     [100%]\n\n=============================== warnings summary ===============================\nNone\n  Module already imported so cannot be rewritten: astropy.tests.plugins.display\n\n-- Docs: http://doc.pytest.org/en/latest/warnings.html\n==================== 242 passed, 1 warnings in 2.31 seconds ====================\n\n",
+        "test_files_run": [
+          "astropy/units/tests/test_units.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "astropy__astropy-8872",
+      "passed": false,
+      "duration": 10.183130025863647,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 1,
+        "skipped": 0,
+        "duration": 9.89,
+        "log_tail": "<frozen importlib._bootstrap>:986: in _find_and_load_unlocked\n    ???\n<frozen importlib._bootstrap>:680: in _load_unlocked\n    ???\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:178: in exec_module\n    exec(co, module.__dict__)\nastropy/units/tests/test_quantity.py:29: in <module>\n    MATPLOTLIB_LT_15 = LooseVersion(matplotlib.__version__) < LooseVersion(\"1.5\")\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/setuptools/_distutils/version.py:55: in __init__\n    warnings.warn(\nE   DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.\n____________ ERROR collecting astropy/units/tests/test_quantity.py _____________\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/runner.py:341: in from_call\n    result: Optional[TResult] = func()\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/runner.py:372: in <lambda>\n    call = CallInfo.from_call(lambda: list(collector.collect()), \"collect\")\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/python.py:531: in collect\n    self._inject_setup_module_fixture()\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/python.py:545: in _inject_setup_module_fixture\n    self.obj, (\"setUpModule\", \"setup_module\")\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/python.py:310: in obj\n    self._obj = obj = self._getobj()\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/python.py:528: in _getobj\n    return self._importtestmodule()\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/python.py:617: in _importtestmodule\n    mod = import_path(self.path, mode=importmode, root=self.config.rootpath)\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/pathlib.py:565: in import_path\n    importlib.import_module(module_name)\n/opt/miniconda3/envs/testbed/lib/python3.9/importlib/__init__.py:127: in import_module\n    return _bootstrap._gcd_import(name[level:], package, level)\n<frozen importlib._bootstrap>:1030: in _gcd_import\n    ???\n<frozen importlib._bootstrap>:1007: in _find_and_load\n    ???\n<frozen importlib._bootstrap>:986: in _find_and_load_unlocked\n    ???\n<frozen importlib._bootstrap>:680: in _load_unlocked\n    ???\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/assertion/rewrite.py:178: in exec_module\n    exec(co, module.__dict__)\nastropy/units/tests/test_quantity.py:29: in <module>\n    MATPLOTLIB_LT_15 = LooseVersion(matplotlib.__version__) < LooseVersion(\"1.5\")\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/setuptools/_distutils/version.py:55: in __init__\n    warnings.warn(\nE   DeprecationWarning: distutils Version classes are deprecated. Use packaging.version instead.\n!!!!!!!!!!!!!!!!!!! Interrupted: 2 errors during collection !!!!!!!!!!!!!!!!!!!!\n============================== 2 errors in 1.67s ===============================\n\n\nERROR conda.cli.main_run:execute(124): `conda run python -m pytest -v --tb=short -rN astropy/units/tests/test_quantity.py` failed. (See above for error)",
+        "test_files_run": [
+          "astropy/units/tests/test_quantity.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "astropy__astropy-14096",
+      "passed": false,
+      "duration": 75.00150084495544,
+      "worker": "http://34.60.238.60:8080",
+      "error": "Cannot connect to host 34.60.238.60:8080 ssl:default [Connect call failed ('34.60.238.60', 8080)]"
+    },
+    {
+      "instance_id": "astropy__astropy-13977",
+      "passed": false,
+      "duration": 75.0041229724884,
+      "worker": "http://34.55.85.102:8080",
+      "error": "Cannot connect to host 34.55.85.102:8080 ssl:default [Connect call failed ('34.55.85.102', 8080)]"
+    },
+    {
+      "instance_id": "astropy__astropy-13579",
+      "passed": false,
+      "duration": 75.00526285171509,
+      "worker": "http://34.135.33.52:8080",
+      "error": "Cannot connect to host 34.135.33.52:8080 ssl:default [Connect call failed ('34.135.33.52', 8080)]"
+    },
+    {
+      "instance_id": "astropy__astropy-13453",
+      "passed": false,
+      "duration": 75.00610208511353,
+      "worker": "http://34.123.9.23:8080",
+      "error": "Cannot connect to host 34.123.9.23:8080 ssl:default [Connect call failed ('34.123.9.23', 8080)]"
+    },
+    {
+      "instance_id": "astropy__astropy-13398",
+      "passed": false,
+      "duration": 75.00684404373169,
+      "worker": "http://34.31.131.101:8080",
+      "error": "Cannot connect to host 34.31.131.101:8080 ssl:default [Connect call failed ('34.31.131.101', 8080)]"
+    },
+    {
+      "instance_id": "django__django-10097",
+      "passed": false,
+      "duration": 15.025077819824219,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "duration": 14.71,
+        "log_tail": "No test files found in patch",
+        "test_files_run": [],
+        "contract_met": false,
+        "reason": "No tests to run"
+      }
+    },
+    {
+      "instance_id": "django__django-10554",
+      "passed": false,
+      "duration": 16.61936378479004,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 16.33,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/queries/test_qs_combinators.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/queries/test_qs_combinators.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "astropy__astropy-8707",
+      "passed": false,
+      "duration": 29.051162242889404,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 150,
+        "passed": 0,
+        "failed": 0,
+        "errors": 146,
+        "skipped": 0,
+        "duration": 28.78,
+        "log_tail": "    warnings.warn(\nE   pytest.PytestRemovedIn8Warning: Support for nose tests is deprecated and will be removed in a future release.\nE   astropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_hdu_writeto_mode[ab] is using nose-specific method: `setup(self)`\nE   To remove this warning, rename it to `setup_method(self)`\nE   See docs: https://docs.pytest.org/en/stable/deprecations.html#support-for-tests-written-for-nose\n__ ERROR at setup of TestRecordValuedKeywordCards.test_hdu_writeto_mode[ab+] ___\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/runner.py:341: in from_call\n    result: Optional[TResult] = func()\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/runner.py:262: in <lambda>\n    lambda: ihook(item=item, **kwds), when=when, reraise=reraise\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/_hooks.py:493: in __call__\n    return self._hookexec(self.name, self._hookimpls, kwargs, firstresult)\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/_manager.py:115: in _hookexec\n    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/runner.py:157: in pytest_runtest_setup\n    item.session._setupstate.setup(item)\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/runner.py:497: in setup\n    raise exc\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/runner.py:494: in setup\n    col.setup()\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/python.py:1791: in setup\n    self._request._fillfixtures()\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/fixtures.py:566: in _fillfixtures\n    item.funcargs[argname] = self.getfixturevalue(argname)\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/fixtures.py:585: in getfixturevalue\n    fixturedef = self._get_active_fixturedef(argname)\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/fixtures.py:607: in _get_active_fixturedef\n    self._compute_fixture_value(fixturedef)\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/fixtures.py:693: in _compute_fixture_value\n    fixturedef.execute(request=subrequest)\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/fixtures.py:1069: in execute\n    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/_hooks.py:493: in __call__\n    return self._hookexec(self.name, self._hookimpls, kwargs, firstresult)\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/pluggy/_manager.py:115: in _hookexec\n    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/fixtures.py:1123: in pytest_fixture_setup\n    result = call_fixture_func(fixturefunc, request, kwargs)\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/fixtures.py:895: in call_fixture_func\n    fixture_result = next(generator)\n/opt/miniconda3/envs/testbed/lib/python3.9/site-packages/_pytest/python.py:898: in xunit_setup_method_fixture\n    warnings.warn(\nE   pytest.PytestRemovedIn8Warning: Support for nose tests is deprecated and will be removed in a future release.\nE   astropy/io/fits/tests/test_header.py::TestRecordValuedKeywordCards::test_hdu_writeto_mode[ab+] is using nose-specific method: `setup(self)`\nE   To remove this warning, rename it to `setup_method(self)`\nE   See docs: https://docs.pytest.org/en/stable/deprecations.html#support-for-tests-written-for-nose\n======================== 4 passed, 146 errors in 20.85s ========================\n\n\nERROR conda.cli.main_run:execute(124): `conda run python -m pytest -v --tb=short -rN astropy/io/fits/tests/test_header.py` failed. (See above for error)",
+        "test_files_run": [
+          "astropy/io/fits/tests/test_header.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11087",
+      "passed": false,
+      "duration": 16.44723105430603,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 15.96,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [-k]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/delete/models.py tests/delete/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/delete/models.py",
+          "tests/delete/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11095",
+      "passed": false,
+      "duration": 8.126398086547852,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.84,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [-k]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/generic_inline_admin/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/generic_inline_admin/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11119",
+      "passed": false,
+      "duration": 7.8990583419799805,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.61,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [-k]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/template_tests/test_engine.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/template_tests/test_engine.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11099",
+      "passed": false,
+      "duration": 15.852399110794067,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 15.59,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [-k]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/auth_tests/test_validators.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/auth_tests/test_validators.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11133",
+      "passed": false,
+      "duration": 7.906713247299194,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.62,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [-k]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/httpwrappers/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/httpwrappers/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11138",
+      "passed": false,
+      "duration": 8.019765853881836,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.72,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [-k]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/timezones/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/timezones/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11149",
+      "passed": false,
+      "duration": 7.94568395614624,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.65,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [-k]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/admin_inlines/tests.py tests/admin_inlines/models.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/admin_inlines/tests.py",
+          "tests/admin_inlines/models.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11163",
+      "passed": false,
+      "duration": 7.9217610359191895,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.63,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [-k]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/model_forms/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/model_forms/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11179",
+      "passed": false,
+      "duration": 8.064661979675293,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.77,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [-k]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/delete/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/delete/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11141",
+      "passed": false,
+      "duration": 16.98909902572632,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 16.69,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/migrations/test_loader.py tests/migrations/test_migrations_namespace_package/0001_initial.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/migrations/test_loader.py",
+          "tests/migrations/test_migrations_namespace_package/0001_initial.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11206",
+      "passed": false,
+      "duration": 8.060545921325684,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.78,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [-k]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/utils_tests/test_numberformat.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/utils_tests/test_numberformat.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11211",
+      "passed": false,
+      "duration": 7.989973068237305,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.7,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [-k]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/prefetch_related/models.py tests/prefetch_related/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/prefetch_related/models.py",
+          "tests/prefetch_related/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11239",
+      "passed": false,
+      "duration": 7.94168496131897,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.64,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [-k]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/dbshell/test_postgresql.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/dbshell/test_postgresql.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11265",
+      "passed": false,
+      "duration": 8.102092981338501,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.81,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/filtered_relation/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/filtered_relation/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11276",
+      "passed": false,
+      "duration": 8.27145791053772,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.85,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [-k]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/forms_tests/tests/test_forms.py tests/auth_tests/test_forms.py tests/template_tests/filter_tests/test_title.py tests/view_tests/tests/test_debug.py tests/view_tests/tests/test_csrf.py tests/template_tests/filter_tests/test_addslashes.py tests/admin_docs/test_views.py tests/template_tests/syntax_tests/test_url.py tests/model_forms/tests.py tests/template_tests/filter_tests/test_make_list.py tests/utils_tests/test_html.py tests/forms_tests/widget_tests/test_clearablefileinput.py tests/forms_tests/widget_tests/base.py tests/template_tests/filter_tests/test_urlize.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/forms_tests/tests/test_forms.py",
+          "tests/auth_tests/test_forms.py",
+          "tests/template_tests/filter_tests/test_title.py",
+          "tests/view_tests/tests/test_debug.py",
+          "tests/view_tests/tests/test_csrf.py",
+          "tests/template_tests/filter_tests/test_addslashes.py",
+          "tests/admin_docs/test_views.py",
+          "tests/template_tests/syntax_tests/test_url.py",
+          "tests/model_forms/tests.py",
+          "tests/template_tests/filter_tests/test_make_list.py",
+          "tests/utils_tests/test_html.py",
+          "tests/forms_tests/widget_tests/test_clearablefileinput.py",
+          "tests/forms_tests/widget_tests/base.py",
+          "tests/template_tests/filter_tests/test_urlize.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11292",
+      "passed": false,
+      "duration": 7.8877341747283936,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.6,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [-k]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/user_commands/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/user_commands/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11299",
+      "passed": false,
+      "duration": 8.087321281433105,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.8,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [-k]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/migrations/test_operations.py tests/queries/test_query.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/migrations/test_operations.py",
+          "tests/queries/test_query.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11333",
+      "passed": false,
+      "duration": 8.377972841262817,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 8.09,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/urlpatterns/test_resolvers.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/urlpatterns/test_resolvers.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11400",
+      "passed": false,
+      "duration": 7.92893385887146,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.64,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/model_fields/tests.py tests/admin_filters/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/model_fields/tests.py",
+          "tests/admin_filters/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-10880",
+      "passed": false,
+      "duration": 74.9613618850708,
+      "worker": "http://34.60.238.60:8080",
+      "error": "Cannot connect to host 34.60.238.60:8080 ssl:default [Connect call failed ('34.60.238.60', 8080)]"
+    },
+    {
+      "instance_id": "django__django-10999",
+      "passed": false,
+      "duration": 74.9592821598053,
+      "worker": "http://34.123.9.23:8080",
+      "error": "Cannot connect to host 34.123.9.23:8080 ssl:default [Connect call failed ('34.123.9.23', 8080)]"
+    },
+    {
+      "instance_id": "django__django-10973",
+      "passed": false,
+      "duration": 74.96022510528564,
+      "worker": "http://34.135.33.52:8080",
+      "error": "Cannot connect to host 34.135.33.52:8080 ssl:default [Connect call failed ('34.135.33.52', 8080)]"
+    },
+    {
+      "instance_id": "django__django-10914",
+      "passed": false,
+      "duration": 74.96138381958008,
+      "worker": "http://34.55.85.102:8080",
+      "error": "Cannot connect to host 34.55.85.102:8080 ssl:default [Connect call failed ('34.55.85.102', 8080)]"
+    },
+    {
+      "instance_id": "django__django-11066",
+      "passed": false,
+      "duration": 74.96103978157043,
+      "worker": "http://34.31.131.101:8080",
+      "error": "Cannot connect to host 34.31.131.101:8080 ssl:default [Connect call failed ('34.31.131.101', 8080)]"
+    },
+    {
+      "instance_id": "django__django-11433",
+      "passed": false,
+      "duration": 7.93301796913147,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.65,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/model_forms/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/model_forms/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11451",
+      "passed": false,
+      "duration": 7.929142951965332,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.64,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/auth_tests/test_auth_backends.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/auth_tests/test_auth_backends.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11477",
+      "passed": false,
+      "duration": 7.965354919433594,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.69,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/urlpatterns/tests.py tests/i18n/patterns/urls/default.py tests/urlpatterns/path_urls.py tests/i18n/patterns/tests.py tests/urlpatterns_reverse/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/urlpatterns/tests.py",
+          "tests/i18n/patterns/urls/default.py",
+          "tests/urlpatterns/path_urls.py",
+          "tests/i18n/patterns/tests.py",
+          "tests/urlpatterns_reverse/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11728",
+      "passed": false,
+      "duration": 8.080623149871826,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.8,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/admin_docs/test_views.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/admin_docs/test_views.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11734",
+      "passed": false,
+      "duration": 8.098154067993164,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.82,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/queries/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/queries/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11740",
+      "passed": false,
+      "duration": 7.995435953140259,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.71,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/migrations/test_autodetector.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/migrations/test_autodetector.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11749",
+      "passed": false,
+      "duration": 7.965398073196411,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.68,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/user_commands/management/commands/mutually_exclusive_required.py tests/user_commands/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/user_commands/management/commands/mutually_exclusive_required.py",
+          "tests/user_commands/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11815",
+      "passed": false,
+      "duration": 8.00773811340332,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.71,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/migrations/test_writer.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/migrations/test_writer.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11848",
+      "passed": false,
+      "duration": 7.9338250160217285,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.63,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/utils_tests/test_http.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/utils_tests/test_http.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11790",
+      "passed": false,
+      "duration": 17.747530698776245,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 17.47,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/auth_tests/test_forms.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/auth_tests/test_forms.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11820",
+      "passed": false,
+      "duration": 16.31974720954895,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 16.03,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/invalid_models_tests/test_models.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/invalid_models_tests/test_models.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11880",
+      "passed": false,
+      "duration": 8.127932071685791,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.84,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/forms_tests/tests/test_forms.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/forms_tests/tests/test_forms.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11885",
+      "passed": false,
+      "duration": 8.104008913040161,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.82,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/delete/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/delete/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11951",
+      "passed": false,
+      "duration": 7.956892728805542,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.68,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/bulk_create/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/bulk_create/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11964",
+      "passed": false,
+      "duration": 7.932497978210449,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.65,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/model_enums/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/model_enums/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11999",
+      "passed": false,
+      "duration": 8.138444185256958,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.84,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/model_fields/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/model_fields/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12039",
+      "passed": false,
+      "duration": 7.987522125244141,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.69,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/indexes/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/indexes/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12050",
+      "passed": false,
+      "duration": 7.9177258014678955,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.63,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/queries/test_query.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/queries/test_query.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12125",
+      "passed": false,
+      "duration": 7.961302995681763,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.69,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/migrations/test_writer.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/migrations/test_writer.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12143",
+      "passed": false,
+      "duration": 8.181718111038208,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.9,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/admin_changelist/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/admin_changelist/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12155",
+      "passed": false,
+      "duration": 8.342618942260742,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 8.04,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/admin_docs/test_utils.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/admin_docs/test_utils.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12193",
+      "passed": false,
+      "duration": 8.415697813034058,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 8.13,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/forms_tests/widget_tests/test_checkboxinput.py tests/postgres_tests/test_array.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/forms_tests/widget_tests/test_checkboxinput.py",
+          "tests/postgres_tests/test_array.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12209",
+      "passed": false,
+      "duration": 8.006850004196167,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.7,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/serializers/models/data.py tests/serializers/test_data.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/serializers/models/data.py",
+          "tests/serializers/test_data.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12262",
+      "passed": false,
+      "duration": 8.161123752593994,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.88,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/template_tests/templatetags/inclusion.py tests/template_tests/test_custom.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/template_tests/templatetags/inclusion.py",
+          "tests/template_tests/test_custom.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12273",
+      "passed": false,
+      "duration": 7.943299770355225,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.65,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/model_inheritance_regress/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/model_inheritance_regress/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-11490",
+      "passed": false,
+      "duration": 74.99945306777954,
+      "worker": "http://34.60.238.60:8080",
+      "error": "Cannot connect to host 34.60.238.60:8080 ssl:default [Connect call failed ('34.60.238.60', 8080)]"
+    },
+    {
+      "instance_id": "django__django-11555",
+      "passed": false,
+      "duration": 75.00021505355835,
+      "worker": "http://34.55.85.102:8080",
+      "error": "Cannot connect to host 34.55.85.102:8080 ssl:default [Connect call failed ('34.55.85.102', 8080)]"
+    },
+    {
+      "instance_id": "django__django-11551",
+      "passed": false,
+      "duration": 75.00095510482788,
+      "worker": "http://34.135.33.52:8080",
+      "error": "Cannot connect to host 34.135.33.52:8080 ssl:default [Connect call failed ('34.135.33.52', 8080)]"
+    },
+    {
+      "instance_id": "django__django-11532",
+      "passed": false,
+      "duration": 75.00168299674988,
+      "worker": "http://34.123.9.23:8080",
+      "error": "Cannot connect to host 34.123.9.23:8080 ssl:default [Connect call failed ('34.123.9.23', 8080)]"
+    },
+    {
+      "instance_id": "django__django-11603",
+      "passed": false,
+      "duration": 75.00055694580078,
+      "worker": "http://34.31.131.101:8080",
+      "error": "Cannot connect to host 34.31.131.101:8080 ssl:default [Connect call failed ('34.31.131.101', 8080)]"
+    },
+    {
+      "instance_id": "django__django-12276",
+      "passed": false,
+      "duration": 7.994185209274292,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.69,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/forms_tests/tests/test_forms.py tests/forms_tests/widget_tests/test_fileinput.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/forms_tests/tests/test_forms.py",
+          "tests/forms_tests/widget_tests/test_fileinput.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12304",
+      "passed": false,
+      "duration": 8.0364511013031,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.73,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/model_enums/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/model_enums/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12308",
+      "passed": false,
+      "duration": 8.3888578414917,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 8.09,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/admin_utils/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/admin_utils/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12713",
+      "passed": false,
+      "duration": 8.563674926757812,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 8.28,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/admin_widgets/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/admin_widgets/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12741",
+      "passed": false,
+      "duration": 8.172538042068481,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.88,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/backends/base/test_operations.py tests/backends/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/backends/base/test_operations.py",
+          "tests/backends/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12774",
+      "passed": false,
+      "duration": 7.985140085220337,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.7,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/lookup/tests.py tests/lookup/models.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/lookup/tests.py",
+          "tests/lookup/models.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12858",
+      "passed": false,
+      "duration": 8.008201122283936,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 7.71,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/invalid_models_tests/test_models.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/invalid_models_tests/test_models.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12754",
+      "passed": false,
+      "duration": 19.137988090515137,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 18.85,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/migrations/test_autodetector.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/migrations/test_autodetector.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-13023",
+      "passed": false,
+      "duration": 10.580396890640259,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 10.28,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/model_fields/test_decimalfield.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/model_fields/test_decimalfield.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12965",
+      "passed": false,
+      "duration": 19.11648988723755,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 18.83,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/delete/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/delete/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-13012",
+      "passed": false,
+      "duration": 18.696282863616943,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 18.41,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/expressions/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/expressions/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-13028",
+      "passed": false,
+      "duration": 10.594548225402832,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 10.3,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/queries/models.py tests/queries/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/queries/models.py",
+          "tests/queries/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-13033",
+      "passed": false,
+      "duration": 10.707716941833496,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 10.41,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/ordering/tests.py tests/ordering/models.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/ordering/tests.py",
+          "tests/ordering/models.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-13089",
+      "passed": false,
+      "duration": 10.648392915725708,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 10.34,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/cache/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/cache/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-13109",
+      "passed": false,
+      "duration": 10.556453227996826,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 10.26,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/validation/models.py tests/validation/tests.py tests/model_forms/tests.py tests/model_forms/models.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/validation/models.py",
+          "tests/validation/tests.py",
+          "tests/model_forms/tests.py",
+          "tests/model_forms/models.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-13112",
+      "passed": false,
+      "duration": 10.862427949905396,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 10.54,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/migrations/test_state.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/migrations/test_state.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-13121",
+      "passed": false,
+      "duration": 10.619148969650269,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 10.32,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/backends/base/test_operations.py tests/expressions/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/backends/base/test_operations.py",
+          "tests/expressions/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-13128",
+      "passed": false,
+      "duration": 10.64986801147461,
+      "worker": "http://35.239.238.137:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 10.35,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/expressions/tests.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/expressions/tests.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-13158",
+      "passed": false,
+      "duration": 10.64894986152649,
+      "worker": "http://35.238.177.176:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 10.3,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/queries/test_qs_combinators.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/queries/test_qs_combinators.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-13195",
+      "passed": false,
+      "duration": 10.686146020889282,
+      "worker": "http://34.44.234.143:8080",
+      "details": {
+        "collected": 0,
+        "passed": 0,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 0,
+        "duration": 10.39,
+        "log_tail": "\nusage: runtests.py [-h] [-v {0,1,2,3}] [--noinput] [--failfast] [--keepdb]\n                   [--settings SETTINGS] [--bisect BISECT] [--pair PAIR]\n                   [--reverse] [--selenium BROWSERS] [--headless]\n                   [--selenium-hub SELENIUM_HUB]\n                   [--external-host EXTERNAL_HOST] [--debug-sql]\n                   [--parallel [N]] [--tag TAGS] [--exclude-tag EXCLUDE_TAGS]\n                   [--start-after START_AFTER] [--start-at START_AT] [--pdb]\n                   [-b]\n                   [module [module ...]]\nruntests.py: error: unrecognized arguments: --no-input\n\nERROR conda.cli.main_run:execute(124): `conda run python runtests.py --verbosity=2 --no-input tests/messages_tests/test_cookie.py tests/sessions_tests/tests.py tests/responses/test_cookie.py` failed. (See above for error)",
+        "test_files_run": [
+          "tests/messages_tests/test_cookie.py",
+          "tests/sessions_tests/tests.py",
+          "tests/responses/test_cookie.py"
+        ],
+        "contract_met": true,
+        "contract_reason": "OK"
+      }
+    },
+    {
+      "instance_id": "django__django-12325",
+      "passed": false,
+      "duration": 75.0002019405365,
+      "worker": "http://34.60.238.60:8080",
+      "error": "Cannot connect to host 34.60.238.60:8080 ssl:default [Connect call failed ('34.60.238.60', 8080)]"
+    },
+    {
+      "instance_id": "django__django-12419",
+      "passed": false,
+      "duration": 75.00075602531433,
+      "worker": "http://34.135.33.52:8080",
+      "error": "Cannot connect to host 34.135.33.52:8080 ssl:default [Connect call failed ('34.135.33.52', 8080)]"
+    }
+  ]
+}

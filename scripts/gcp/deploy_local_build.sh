@@ -60,18 +60,32 @@ docker build -t swe-bench-tester:v2-fixed .
 echo "Stopping old container..."
 docker rm -f swe-bench-tester >/dev/null 2>&1 || true
 
-# Run the locally built tester
-echo "Starting fixed tester container..."
+# Run the locally built tester with infrastructure fixes
+echo "Starting fixed tester container with multi-process and health checks..."
 docker run -d --name swe-bench-tester \
     -p 8080:8080 \
     -v /var/run/docker.sock:/var/run/docker.sock \
     -v /mnt/disks/ssd/repos:/scratch/repos \
     --restart unless-stopped \
-    -e TESTER_VERSION=v2-fixed-local \
+    --ulimit nofile=65535:65535 \
+    -e TESTER_VERSION=v2-infra-fixed \
     swe-bench-tester:v2-fixed
 
+# Add Docker cleanup cron job
+echo "Setting up Docker cleanup cron job..."
+cat > /etc/cron.d/docker-cleanup << 'CRON_EOF'
+# Clean up Docker when disk usage is high
+*/10 * * * * root if [ $(df -h /var/lib/docker | awk 'NR==2 {print int($5)}') -gt 80 ]; then docker system prune -af --volumes > /var/log/docker-cleanup.log 2>&1; fi
+CRON_EOF
+
+# Increase system limits
+echo "Configuring system limits..."
+sysctl -w net.core.somaxconn=4096 || true
+sysctl -w net.ipv4.ip_local_port_range="1024 65000" || true
+
 echo "=== $(date -Is) END local build deployment ==="
-echo "Worker ready with locally built fixed tester!"
+echo "Worker ready with infrastructure-hardened tester!"
+echo "Features: multi-process API, health checks, Docker cleanup, increased limits"
 EOF
 
 # Create workers (use non-preemptible to avoid churn during this critical run)
@@ -181,6 +195,14 @@ echo "  - python -m pytest (correct Python interpreter)"
 echo "  - No --no-header flag"  
 echo "  - Increased timeouts (420s/300s)"
 echo "  - Python version verification"
+echo "Infrastructure hardening (GPT-5 recommendations):"
+echo "  - Multi-process uvicorn (4 workers)"
+echo "  - Health check endpoints (/health, /ready, /live)"
+echo "  - Per-worker concurrency limits (3 concurrent)"
+echo "  - Backpressure (429 when busy)"
+echo "  - Docker image cleanup after tests"
+echo "  - Automatic Docker pruning when disk >80%"
+echo "  - Increased ulimits and connection backlogs"
 echo ""
 echo "To run validation:"
 echo "  cd runner/src"

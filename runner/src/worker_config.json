@@ -1,8 +1,15 @@
 {
     "worker_urls": [
-        "http://34.44.234.143:8080"
+        "http://34.44.234.143:8080",
+        "http://35.239.238.137:8080",
+        "http://35.238.177.176:8080",
+        "http://34.31.131.101:8080",
+        "http://34.123.9.23:8080",
+        "http://34.135.33.52:8080",
+        "http://34.55.85.102:8080",
+        "http://34.60.238.60:8080"
     ],
-    "num_workers": 1,
-    "tester_version": "v2-fixed-safeguards",
-    "created_at": "2025-08-10T13:50:00Z"
+    "num_workers": 8,
+    "tester_version": "v2-full-validation",
+    "created_at": "2025-08-10T15:10:00Z"
 }

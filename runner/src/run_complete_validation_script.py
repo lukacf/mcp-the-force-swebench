@@ -15,12 +15,23 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# Worker URLs (only active workers)
-WORKER_URLS = ['http://34.44.234.143:8080', 'http://35.239.238.137:8080', 'http://34.41.233.120:8080', 'http://34.44.241.183:8080', 'http://34.59.30.169:8080', 'http://34.123.9.23:8080', 'http://34.70.1.155:8080']
+# Worker URLs (8 active workers)
+WORKER_URLS = [
+    'http://34.44.234.143:8080',
+    'http://35.239.238.137:8080',
+    'http://35.238.177.176:8080',
+    'http://34.31.131.101:8080',
+    'http://34.123.9.23:8080',
+    'http://34.135.33.52:8080',
+    'http://34.55.85.102:8080',
+    'http://34.60.238.60:8080'
+]
 
 # Load instances
-with open('../swebench_instances.json', 'r') as f:
-    instances = json.load(f)
+instances = []
+with open('../swe_bench_instances.jsonl', 'r') as f:
+    for line in f:
+        instances.append(json.loads(line))
 
 # Filter to get exactly 499 instances (excluding the deprecated one)
 instances = [i for i in instances if i["instance_id"] != "deprecated_instance"]
@@ -204,8 +215,7 @@ async def main():
     failed = len(results) - passed
     pass_rate = (passed / len(results) * 100) if results else 0
     
-    print(f"
-" + "="*60)
+    print("\n" + "="*60)
     print(f"VALIDATION COMPLETE")
     print(f"Total: {len(results)}/{len(instances)}")
     print(f"Passed: {passed}")
@@ -223,8 +233,7 @@ async def main():
         else:
             repo_stats[repo]['failed'] += 1
     
-    print(f"
-{'Repository':<30} {'Passed':>8} {'Failed':>8} {'Pass Rate':>10}")
+    print(f"\n{'Repository':<30} {'Passed':>8} {'Failed':>8} {'Pass Rate':>10}")
     print("-" * 60)
     for repo in sorted(repo_stats.keys()):
         stats = repo_stats[repo]

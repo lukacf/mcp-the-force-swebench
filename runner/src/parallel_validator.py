@@ -9,6 +9,8 @@ import json
 import time
 import logging
 import requests
+import asyncio
+import threading
 from collections import defaultdict, Counter
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import List, Dict, Any
@@ -38,16 +40,21 @@ REPO_COMPLEXITY = {
 
 
 class ParallelValidator:
-    def __init__(self, worker_urls: List[str], max_workers_per_instance: int = 10):
+    def __init__(self, worker_urls: List[str], max_workers_per_instance: int = 10, max_concurrent_per_worker: int = 3):
         """
         Initialize parallel validator.
         
         Args:
             worker_urls: List of worker URLs (e.g., ['http://ip1:8080', 'http://ip2:8080'])
             max_workers_per_instance: Max concurrent validations per worker
+            max_concurrent_per_worker: Max concurrent requests per worker (GPT-5 recommended: 2-4)
         """
         self.worker_urls = worker_urls
         self.max_workers_per_instance = max_workers_per_instance
+        self.max_concurrent_per_worker = max_concurrent_per_worker
+        # Create semaphores for each worker to limit concurrency
+        self.worker_semaphores = {url: threading.Semaphore(max_concurrent_per_worker) 
+                                  for url in worker_urls}
         self.results = []
         self.failures = []
         self.start_time = None
@@ -59,6 +66,10 @@ class ParallelValidator:
         
         instance_id = instance['instance_id']
         logger.debug(f"Validating {instance_id} on {worker_url} (retry {retry_count})")
+        
+        # Acquire semaphore for this worker to limit concurrency
+        semaphore = self.worker_semaphores[worker_url]
+        semaphore.acquire()
         
         try:
             # Step 1: Test with test_patch only (should fail)
@@ -83,6 +94,17 @@ class ParallelValidator:
                 json=request_data,
                 timeout=420
             )
+            
+            # Handle 429 (Too Many Requests) - worker is busy
+            if response1.status_code == 429:
+                semaphore.release()  # Release semaphore
+                if retry_count < 3:
+                    wait_time = (2 ** retry_count) + random.uniform(0, 1)  # Exponential backoff
+                    logger.warning(f"Worker {worker_url} busy (429), retrying {instance_id} in {wait_time:.1f}s")
+                    time.sleep(wait_time)
+                    return self.validate_instance_on_worker(instance, worker_url, retry_count + 1)
+                else:
+                    raise Exception(f"Worker busy after {retry_count} retries")
             
             if response1.status_code != 200:
                 raise Exception(f"Worker returned {response1.status_code}: {response1.text[:200]}")
@@ -111,6 +133,17 @@ class ParallelValidator:
                 json=request_data2,
                 timeout=420
             )
+            
+            # Handle 429 (Too Many Requests) - worker is busy
+            if response2.status_code == 429:
+                semaphore.release()  # Release semaphore
+                if retry_count < 3:
+                    wait_time = (2 ** retry_count) + random.uniform(0, 1)  # Exponential backoff
+                    logger.warning(f"Worker {worker_url} busy (429), retrying {instance_id} in {wait_time:.1f}s")
+                    time.sleep(wait_time)
+                    return self.validate_instance_on_worker(instance, worker_url, retry_count + 1)
+                else:
+                    raise Exception(f"Worker busy after {retry_count} retries")
             
             if response2.status_code != 200:
                 raise Exception(f"Worker returned {response2.status_code}: {response2.text[:200]}")
@@ -170,6 +203,9 @@ class ParallelValidator:
                 'error': str(e),
                 'retry_count': retry_count
             }
+        finally:
+            # Always release semaphore
+            semaphore.release()
     
     def _extract_test_files(self, instance: Dict) -> List[str]:
         """Extract test files from instance."""

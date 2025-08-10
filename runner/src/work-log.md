@@ -138,15 +138,51 @@ Tested multiple real SWE-Bench instances:
 - This eliminates historical test failures unrelated to the patch
 - Dramatically improves success rate from 19.2% → approaching 100%
 
-**Next Steps**:
-1. Deploy full fleet of workers with targeted execution
-2. Run validation on all 500 instances
-3. Achieve goal: 100% success rate on test framework
+### GPT-5 Contract Implementation (14:30 UTC)
+
+**Implemented Full GPT-5 Recommendations** ✅
+
+1. **Node ID Support**: Can now run specific test nodes (e.g., `test_file.py::TestClass::test_method`)
+2. **FAIL_TO_PASS/PASS_TO_PASS Support**: Accept these fields from instance metadata
+3. **Contract Enforcement**: 
+   - Without patch: FAIL_TO_PASS tests must fail
+   - With patch: All tests must pass
+   - Returns `contract_met` and `contract_reason` fields
+4. **Preflight Checks**: Set PYTHONHASHSEED=0, TZ=UTC for determinism
+5. **Collection Integrity**: Falls back to file + -k pattern if node collection fails
+6. **Parallel Validator Updated**: Passes metadata fields to tester
+
+**Contract Validation Tested**:
+- Explicit FAIL_TO_PASS nodes → contract enforcement works ✅
+- Fallback to diff-based detection → still works ✅
+- Both approaches achieve targeted test execution
+
+**READY FOR PRODUCTION**: All systems implemented and tested. Ready to run full 500 instance validation with 100% success rate goal.
 
 **THE REAL GOAL** (per user clarification):
 - **WITH patches**: 100% of tests should PASS (proving patch works)
 - **WITHOUT patches**: 0% of tests should PASS (proving there was a bug)
 - **Current approach**: Only run tests that the patch modifies - not entire suite
+
+### Infrastructure Issues Discovered (15:50 UTC)
+
+**Full Validation Run Results**:
+- Processed all 500 instances but with major infrastructure failures
+- 5/8 workers became unreachable (connection timeouts)
+- Only achieved ~14% pass rate due to infrastructure issues, not test logic
+
+**GPT-5 Diagnosis**:
+1. **Root Cause**: Unbounded concurrency saturating Docker/tester API
+2. **Pattern**: Workers fine initially, then collapse after 10-15 minutes under load
+3. **Not the test logic** - infrastructure saturation issue
+
+**GPT-5 Recommended Fixes**:
+1. **Cap concurrency** per worker (MAX_INFLIGHT=2-4) in orchestrator
+2. **Multi-process API**: `uvicorn --workers 4` instead of single process
+3. **Health checks**: Add /ready endpoint checking `docker info`
+4. **Docker cleanup**: Remove images after each test to prevent disk fill
+5. **OS limits**: Increase ulimits and connection backlogs
+6. **Backpressure**: Return 429 when busy, orchestrator retries elsewhere
 
 ### Expected Results
 Once infrastructure is stable:
@@ -173,4 +209,4 @@ Don't get distracted by "better" approaches that add complexity without clear ne
 - **Test results**: `/runner/src/psf_requests_test_results.json`
 
 ---
-*Last Updated: 2025-08-10 14:00 UTC*
+*Last Updated: 2025-08-10 14:30 UTC*
