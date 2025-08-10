@@ -26,6 +26,41 @@ class Request(BaseModel):
     test_files:  Optional[List[str]] = Field(None, description="Specific test files to run")
 
 
+def _collect_changed_test_paths(container: str, repo_dir: str) -> list:
+    """Collect test files that were changed by the applied patch."""
+    # List files changed by the applied patch
+    diff = subprocess.run(
+        ["docker", "exec", container, "git", "-C", repo_dir,
+         "diff", "--name-only"],
+        capture_output=True, text=True
+    )
+    
+    if diff.returncode != 0:
+        logger.warning("Failed to get git diff, returning empty list")
+        return []
+    
+    candidates = []
+    for p in diff.stdout.splitlines():
+        rp = p.strip()
+        if not rp:
+            continue
+        # Common test file patterns
+        if (rp.startswith(("tests/", "testing/", "test/")) or 
+            "test_" in rp or "_test.py" in rp or 
+            rp.endswith(("test.py", "tests.py"))):
+            candidates.append(rp)
+    
+    # De-duplicate and keep order
+    seen, out = set(), []
+    for p in candidates:
+        if p not in seen:
+            seen.add(p)
+            out.append(p)
+    
+    logger.info(f"Found {len(out)} test files in patch: {out}")
+    return out
+
+
 def verify_python_version(container_name: str, repo_name: str) -> tuple:
     """Verify Python version in the testbed environment."""
     cmd = ["docker", "exec", container_name,
@@ -96,16 +131,40 @@ def run_test(r: Request):
             if proc.returncode != 0:
                 raise HTTPException(422, f"Patch failed:\n{proc.stderr.decode()[:400]}")
 
-        # 4. Determine repo type and run appropriate tests
+        # 4. Collect changed test files from the patch
+        # CRITICAL: Only run tests that were modified by the patch
+        changed_tests = _collect_changed_test_paths(cname, repo_dir)
+        
+        # If test_files was ["all"] or empty, use the changed tests
+        if not r.test_files or (len(r.test_files) == 1 and r.test_files[0].lower() == "all"):
+            test_files_to_run = changed_tests
+        else:
+            # Use provided test files but filter to only those that exist
+            test_files_to_run = r.test_files
+        
+        if not test_files_to_run:
+            logger.warning(f"No test files found for {r.instance_id}")
+            # Return empty results if no tests to run
+            return {
+                "passed": 0,
+                "failed": 0,
+                "errors": 0,
+                "duration": round(time.time() - t0, 2),
+                "log_tail": "No test files found in patch",
+                "test_files_run": []
+            }
+        
+        # 5. Determine repo type and run appropriate tests
         repo_name = r.instance_id.split("__")[0]
         is_django = repo_name == "django"
         
         logger.info(f"Running tests for {r.instance_id} (django={is_django})")
+        logger.info(f"Test files to run: {test_files_to_run}")
         
         if is_django:
-            test_result = run_django_tests_with_retry(cname, repo_dir, r.test_files, r.timeout)
+            test_result = run_django_tests_with_retry(cname, repo_dir, test_files_to_run, r.timeout)
         else:
-            test_result = run_pytest_tests(cname, repo_dir, r.test_files, r.timeout)
+            test_result = run_pytest_tests(cname, repo_dir, test_files_to_run, r.timeout)
         
         out = test_result.stdout + "\n" + test_result.stderr
         
@@ -130,6 +189,33 @@ def run_test(r: Request):
     finally:
         subprocess.run(["docker", "rm", "-f", cname],
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+
+def _maybe_install_test_fixtures(container: str, output: str):
+    """Install missing test fixtures based on error messages."""
+    pkgs = []
+    
+    # Check for common missing fixtures
+    if "fixture 'mocker' not found" in output or "fixture not found: 'mocker'" in output:
+        pkgs.append("pytest-mock")
+    if ("fixture 'httpbin' not found" in output or "fixture 'httpbin_secure' not found" in output or
+        "fixture not found: 'httpbin'" in output):
+        pkgs.append("pytest-httpbin")
+    if "fixture 'freezegun' not found" in output or "fixture not found: 'freezegun'" in output:
+        pkgs.append("freezegun")
+    if "fixture 'responses' not found" in output or "fixture not found: 'responses'" in output:
+        pkgs.append("responses")
+    
+    if pkgs:
+        logger.info(f"Installing missing test fixtures: {pkgs}")
+        for pkg in pkgs:
+            subprocess.run(
+                ["docker", "exec", container, "conda", "run", "-n", "testbed",
+                 "pip", "install", pkg],
+                capture_output=True, text=True
+            )
+        return True
+    return False
 
 
 def ensure_pytest_installed(container_name: str):
@@ -252,21 +338,18 @@ def install_missing_module(container_name: str, module_name: str) -> bool:
         logger.error(f"Failed to install {package_name}: {result.stderr}")
         return False
 
-def run_pytest_tests(container_name: str, repo_dir: str, test_files: Optional[List[str]], timeout: int):
-    """Run pytest with specific test files or all tests (discovery)."""
+def run_pytest_tests(container_name: str, repo_dir: str, test_files: Optional[List[str]], timeout: int, retry_count: int = 0):
+    """Run pytest with specific test files ONLY - no discovery fallback."""
     
     # Ensure pytest is installed
     ensure_pytest_installed(container_name)
     
-    # Normalize the "all" sentinel and empty lists
-    want_all = False
+    # CRITICAL: We must have specific test files - no "all" or discovery
     if not test_files:
-        want_all = True
-    else:
-        norm = [s.strip().lower() for s in test_files if isinstance(s, str)]
-        if len(norm) == 1 and norm[0] == "all":
-            want_all = True
-
+        logger.error("No test files provided - cannot run tests")
+        return subprocess.CompletedProcess(args=[], returncode=1, 
+                                         stdout="", stderr="ERROR: No test files specified")
+    
     # Base cmd: use python -m pytest to ensure the env interpreter
     cmd = [
         "docker", "exec", "-w", repo_dir, container_name,
@@ -274,32 +357,27 @@ def run_pytest_tests(container_name: str, repo_dir: str, test_files: Optional[Li
         "python", "-m", "pytest",
         "-v", "--tb=short", "-rN"
     ]
-
-    if not want_all:
-        # Keep only existing paths; if none exist, fall back to discovery
-        existing = []
-        for p in test_files:
-            check = subprocess.run(
-                ["docker", "exec", container_name, "test", "-e", f"{repo_dir}/{p}"],
-                capture_output=True
-            )
-            if check.returncode == 0:
-                existing.append(p)
-
-        if existing:
-            cmd.extend(existing)
-            logger.info(f"Running specific tests: {existing}")
-        else:
-            logger.info("No valid test paths found, running test discovery")
-    else:
-        logger.info("Running test discovery (no specific test files)")
-
-    return subprocess.run(
+    
+    # Add the specific test files
+    cmd.extend(test_files)
+    logger.info(f"Running pytest with files: {test_files}")
+    
+    # Run the tests
+    result = subprocess.run(
         cmd,
         capture_output=True,
         text=True,
         timeout=timeout
     )
+    
+    # Check for missing fixtures and retry ONCE
+    if retry_count == 0 and result.returncode != 0:
+        output = result.stdout + "\n" + result.stderr
+        if _maybe_install_test_fixtures(container_name, output):
+            logger.info("Retrying after installing missing fixtures...")
+            return run_pytest_tests(container_name, repo_dir, test_files, timeout, retry_count=1)
+    
+    return result
 
 
 def run_django_tests_with_retry(container_name: str, repo_dir: str, test_files: Optional[List[str]], timeout: int):
