@@ -265,6 +265,23 @@ def run_django_tests_with_retry(container_name: str, repo_dir: str, test_files: 
             # Retry the tests
             result = run_django_tests(container_name, repo_dir, test_files, timeout)
     
+    # Check for Django app registry errors
+    if result.returncode != 0 and test_files:
+        if "doesn't declare an explicit app_label" in error_text or "isn't in an application in INSTALLED_APPS" in error_text:
+            logger.info("Test failed due to app registry error, trying with app-level discovery")
+            # Retry with just the app names
+            app_labels = []
+            for test_file in test_files:
+                if test_file.startswith('tests/') and '/' in test_file[6:]:
+                    # Extract just the app name
+                    app_name = test_file.split('/')[1]
+                    if app_name not in app_labels:
+                        app_labels.append(app_name)
+            
+            if app_labels and app_labels != test_files:
+                logger.info(f"Retrying with app labels: {app_labels}")
+                result = run_django_tests(container_name, repo_dir, app_labels, timeout)
+    
     return result
 
 def run_django_tests(container_name: str, repo_dir: str, test_files: Optional[List[str]], timeout: int):
@@ -314,8 +331,9 @@ def convert_to_django_test_labels(test_files: List[str]) -> List[str]:
     """Convert file paths to Django test labels.
     
     Examples:
-    - tests/validators/test_ipv4.py -> tests.validators.test_ipv4
-    - tests/validators/ -> validators (strips 'tests/' prefix)
+    - tests/validators/test_ipv4.py -> validators.test_ipv4
+    - tests/validators/ -> validators
+    - tests/queries/test_qs_combinators.py -> queries.test_qs_combinators
     - django/core/validators/tests.py -> django.core.validators.tests
     """
     test_labels = []
@@ -328,13 +346,25 @@ def convert_to_django_test_labels(test_files: List[str]) -> List[str]:
         # Remove trailing slashes
         file_path = file_path.rstrip('/')
         
-        # Special handling for paths starting with 'tests/'
-        # Django's test runner expects app names, not 'tests.app_name'
-        if file_path.startswith('tests/') and '/' not in file_path[6:]:
-            # e.g., "tests/validators" -> "validators"
-            test_label = file_path[6:]  # Strip 'tests/' prefix
+        # Special handling for Django's own test suite (paths starting with 'tests/')
+        if file_path.startswith('tests/'):
+            # For Django core tests, we need to use app-based discovery
+            parts = file_path.split('/')
+            if len(parts) >= 2:
+                # Extract app name and remaining path
+                app_name = parts[1]  # e.g., 'queries' from 'tests/queries/test_qs_combinators'
+                if len(parts) > 2:
+                    # Include test module: queries.test_qs_combinators
+                    test_module = '.'.join(parts[2:])
+                    test_label = f"{app_name}.{test_module}"
+                else:
+                    # Just app name: queries
+                    test_label = app_name
+            else:
+                # Shouldn't happen, but fallback
+                test_label = file_path.replace('/', '.')
         else:
-            # Convert slashes to dots for other paths
+            # For other paths (django/... etc), use standard conversion
             test_label = file_path.replace('/', '.')
         
         # Remove trailing dots
@@ -350,13 +380,20 @@ def _parse_pytest(text: str) -> dict:
     stats = {"passed": 0, "failed": 0, "errors": 0}
     
     # Look for summary line like "====== 5 failed, 10 passed in 2.34s ======"
-    m = re.search(r"=+\s+(.*?)\s+=+", text)
-    if m:
+    # The summary line contains timing info, so we search for that pattern
+    # Search for all matches and find the one with timing info
+    for m in re.finditer(r"=+\s+(.*?)\s+=+", text):
         summary = m.group(1)
-        for key in stats:
-            mm = re.search(fr"(\d+)\s+{key}", summary)
-            if mm:
-                stats[key] = int(mm.group(1))
+        # Check if this is the summary line (contains "in Xs")
+        if re.search(r"\s+in\s+[\d.]+s", summary):
+            # Parse the summary line
+            for key in stats:
+                # Handle both singular and plural forms (e.g., "1 error" vs "2 errors")
+                pattern = fr"(\d+)\s+{key}" if key != "errors" else r"(\d+)\s+errors?"
+                mm = re.search(pattern, summary)
+                if mm:
+                    stats[key] = int(mm.group(1))
+            break
     
     # Also check for "collected X items" to ensure tests ran
     collected = re.search(r"collected\s+(\d+)\s+item", text)

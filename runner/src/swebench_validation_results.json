@@ -1,0 +1,186 @@
+{
+  "phase": "initial_test",
+  "total_instances": 500,
+  "tested": 12,
+  "valid": 0,
+  "results": [
+    {
+      "instance_id": "django__django-10097",
+      "repo": "django/django",
+      "valid": false,
+      "test_patch_only": {
+        "passed": false,
+        "stats": {}
+      },
+      "patch_plus_test": {
+        "passed": false,
+        "stats": {}
+      },
+      "error": "Expected fail\u2192pass, got False\u2192False"
+    },
+    {
+      "instance_id": "astropy__astropy-12907",
+      "repo": "astropy/astropy",
+      "valid": false,
+      "test_patch_only": {
+        "passed": false,
+        "stats": {}
+      },
+      "patch_plus_test": {
+        "passed": false,
+        "stats": {}
+      },
+      "error": "Expected fail\u2192pass, got False\u2192False"
+    },
+    {
+      "instance_id": "mwaskom__seaborn-3069",
+      "repo": "mwaskom/seaborn",
+      "valid": false,
+      "test_patch_only": {
+        "passed": false,
+        "stats": {}
+      },
+      "patch_plus_test": {
+        "passed": false,
+        "stats": {}
+      },
+      "error": "Expected fail\u2192pass, got False\u2192False"
+    },
+    {
+      "instance_id": "matplotlib__matplotlib-13989",
+      "repo": "matplotlib/matplotlib",
+      "valid": false,
+      "test_patch_only": {
+        "passed": false,
+        "stats": {}
+      },
+      "patch_plus_test": {
+        "passed": false,
+        "stats": {}
+      },
+      "error": "Expected fail\u2192pass, got False\u2192False"
+    },
+    {
+      "instance_id": "psf__requests-1142",
+      "repo": "psf/requests",
+      "valid": false,
+      "test_patch_only": {
+        "passed": false,
+        "stats": {}
+      },
+      "patch_plus_test": {
+        "passed": false,
+        "stats": {}
+      },
+      "error": "Expected fail\u2192pass, got False\u2192False"
+    },
+    {
+      "instance_id": "pallets__flask-5014",
+      "repo": "pallets/flask",
+      "valid": false,
+      "test_patch_only": {
+        "passed": false,
+        "stats": {}
+      },
+      "patch_plus_test": {
+        "passed": false,
+        "stats": {}
+      },
+      "error": "Expected fail\u2192pass, got False\u2192False"
+    },
+    {
+      "instance_id": "pydata__xarray-2905",
+      "repo": "pydata/xarray",
+      "valid": false,
+      "test_patch_only": {
+        "passed": false,
+        "stats": {}
+      },
+      "patch_plus_test": {
+        "passed": false,
+        "stats": {}
+      },
+      "error": "Expected fail\u2192pass, got False\u2192False"
+    },
+    {
+      "instance_id": "pylint-dev__pylint-4551",
+      "repo": "pylint-dev/pylint",
+      "valid": false,
+      "test_patch_only": {
+        "passed": false,
+        "stats": {}
+      },
+      "patch_plus_test": {
+        "passed": false,
+        "stats": {}
+      },
+      "error": "Expected fail\u2192pass, got False\u2192False"
+    },
+    {
+      "instance_id": "scikit-learn__scikit-learn-10297",
+      "repo": "scikit-learn/scikit-learn",
+      "valid": false,
+      "test_patch_only": {
+        "passed": false,
+        "stats": {}
+      },
+      "patch_plus_test": {
+        "passed": false,
+        "stats": {}
+      },
+      "error": "Expected fail\u2192pass, got False\u2192False"
+    },
+    {
+      "instance_id": "sphinx-doc__sphinx-10323",
+      "repo": "sphinx-doc/sphinx",
+      "valid": false,
+      "test_patch_only": {
+        "passed": false,
+        "stats": {}
+      },
+      "patch_plus_test": {
+        "passed": false,
+        "stats": {}
+      },
+      "error": "Expected fail\u2192pass, got False\u2192False"
+    },
+    {
+      "instance_id": "pytest-dev__pytest-10051",
+      "repo": "pytest-dev/pytest",
+      "valid": false,
+      "test_patch_only": {
+        "passed": true,
+        "stats": {
+          "passed": 15,
+          "failed": 0,
+          "errors": 0,
+          "duration": 2.71
+        }
+      },
+      "patch_plus_test": {
+        "passed": true,
+        "stats": {
+          "passed": 16,
+          "failed": 0,
+          "errors": 0,
+          "duration": 2.62
+        }
+      },
+      "error": "Expected fail\u2192pass, got True\u2192True"
+    },
+    {
+      "instance_id": "sympy__sympy-11618",
+      "repo": "sympy/sympy",
+      "valid": false,
+      "test_patch_only": {
+        "passed": false,
+        "stats": {}
+      },
+      "patch_plus_test": {
+        "passed": false,
+        "stats": {}
+      },
+      "error": "Expected fail\u2192pass, got False\u2192False"
+    }
+  ]
+}
