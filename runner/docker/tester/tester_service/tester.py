@@ -18,9 +18,9 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI(title="swe-tester-v2", version="2.0.0")
 
-# Local semaphore to prevent stampede (max 2 concurrent tests)
+# Local semaphore to prevent stampede (max 15 concurrent tests for 60-core machine)
 import asyncio
-local_semaphore = asyncio.Semaphore(2)
+local_semaphore = asyncio.Semaphore(15)
 
 
 @app.get("/health")
@@ -380,9 +380,9 @@ async def _run_test_impl(r: Request):
         # Clean up container
         subprocess.run(["docker", "rm", "-f", cname],
                        stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        # Clean up image to prevent disk fill (GPT-5 recommendation)
-        subprocess.run(["docker", "image", "rm", image],
-                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        # Skip image cleanup for speed (monitor disk usage)
+        # subprocess.run(["docker", "image", "rm", image],
+        #                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 
 def _maybe_install_test_fixtures(container: str, output: str):

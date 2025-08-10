@@ -40,7 +40,7 @@ REPO_COMPLEXITY = {
 
 
 class ParallelValidator:
-    def __init__(self, worker_urls: List[str], max_workers_per_instance: int = 10, max_concurrent_per_worker: int = 3):
+    def __init__(self, worker_urls: List[str], max_workers_per_instance: int = 10, max_concurrent_per_worker: int = 20):
         """
         Initialize parallel validator.
         

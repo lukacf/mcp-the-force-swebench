@@ -17,5 +17,5 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=5s --retries=3 \
     CMD curl -sf http://localhost:8080/ready || exit 1
 
-# Run with multiple workers and shorter keep-alive
-CMD ["uvicorn", "tester_service.tester:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "4", "--timeout-keep-alive", "5"]
+# Run with more workers for 60-core machine
+CMD ["uvicorn", "tester_service.tester:app", "--host", "0.0.0.0", "--port", "8080", "--workers", "16", "--timeout-keep-alive", "5"]
