@@ -253,33 +253,51 @@ def install_missing_module(container_name: str, module_name: str) -> bool:
         return False
 
 def run_pytest_tests(container_name: str, repo_dir: str, test_files: Optional[List[str]], timeout: int):
-    """Run pytest with specific test files or all tests."""
+    """Run pytest with specific test files or all tests (discovery)."""
     
     # Ensure pytest is installed
     ensure_pytest_installed(container_name)
     
-    # Set environment to avoid user site pollution
-    env_vars = "PYTHONNOUSERSITE=1 PYTHONDONTWRITEBYTECODE=1"
-    
-    # CRITICAL FIX: Use python -m pytest instead of pytest directly
-    cmd = ["docker", "exec", "-w", repo_dir, container_name, 
-           "bash", "-c", f"{env_vars} conda run -n testbed python -m pytest"]
-    
-    if test_files:
-        # Run only specific test files
-        # FIXED: Removed --no-header flag that causes failures
-        pytest_args = "-v --tb=short -rN " + " ".join(test_files)
-        cmd[-1] += f" {pytest_args}"
-        logger.info(f"Running specific tests: {test_files}")
+    # Normalize the "all" sentinel and empty lists
+    want_all = False
+    if not test_files:
+        want_all = True
     else:
-        # Fallback to running all tests (existing behavior)
-        cmd[-1] += " -xvs"
-        logger.info("Running all tests (no specific files provided)")
-    
+        norm = [s.strip().lower() for s in test_files if isinstance(s, str)]
+        if len(norm) == 1 and norm[0] == "all":
+            want_all = True
+
+    # Base cmd: use python -m pytest to ensure the env interpreter
+    cmd = [
+        "docker", "exec", "-w", repo_dir, container_name,
+        "conda", "run", "-n", "testbed",
+        "python", "-m", "pytest",
+        "-v", "--tb=short", "-rN"
+    ]
+
+    if not want_all:
+        # Keep only existing paths; if none exist, fall back to discovery
+        existing = []
+        for p in test_files:
+            check = subprocess.run(
+                ["docker", "exec", container_name, "test", "-e", f"{repo_dir}/{p}"],
+                capture_output=True
+            )
+            if check.returncode == 0:
+                existing.append(p)
+
+        if existing:
+            cmd.extend(existing)
+            logger.info(f"Running specific tests: {existing}")
+        else:
+            logger.info("No valid test paths found, running test discovery")
+    else:
+        logger.info("Running test discovery (no specific test files)")
+
     return subprocess.run(
         cmd,
-        capture_output=True, 
-        text=True, 
+        capture_output=True,
+        text=True,
         timeout=timeout
     )
 
